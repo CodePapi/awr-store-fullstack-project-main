@@ -16,13 +16,24 @@ export class ProductsService {
     return created;
   }
 
-  // --- New Implementation for GET /products ---
-  /**
-   * Retrieves a list containing all existing products.
-   * Required for Stage 1.
-   */
+  // Implementation for GET /products
   async findAll(): Promise<Product[]> {
     return await this.prisma.product.findMany();
+  }
+
+  // --- NEW METHOD REQUIRED FOR ORDERS SERVICE ---
+  /**
+   * Retrieves multiple products by their IDs.
+   * Crucial for validating inventory and getting prices during order creation.
+   */
+  async findManyByIds(ids: number[]): Promise<Product[]> {
+    return await this.prisma.product.findMany({
+      where: {
+        id: {
+          in: ids,
+        },
+      },
+    });
   }
 
   // May be implemented (kept for completeness, renamed to match controller convention)
@@ -34,9 +45,6 @@ export class ProductsService {
   async updateOne(): Promise<Product> {}
 
   // May be implemented.
-  // Note: This operation returns a promise of GenericOperationResponse
-  // which contains a flag that denotes whether or not the operation
-  // was successful.
   //@ts-ignore
   async deleteOne(): Promise<GenericOperationResponse> {}
 }
