@@ -1,4 +1,13 @@
-import { Body, Controller, Post, Get, Param, ParseUUIDPipe, NotFoundException, HttpStatus } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  Get,
+  Param,
+  ParseUUIDPipe,
+  NotFoundException,
+  HttpStatus,
+} from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
@@ -18,7 +27,8 @@ export class OrdersController {
   // --- POST /orders: Place a new order (Transactional Logic) ---
   @Post()
   @ApiOperation({
-    summary: 'Places a new order, validating inventory and executing the transaction.',
+    summary:
+      'Places a new order, validating inventory and executing the transaction.',
   })
   @ApiCreatedResponse({
     description: 'Returned when a new Order was created successfully.',
@@ -28,9 +38,7 @@ export class OrdersController {
     status: HttpStatus.BAD_REQUEST,
     description: 'Returned when validation fails or inventory is insufficient.',
   })
-  async create(
-    @Body() createOrderDto: CreateOrderDto,
-  ): Promise<OrderResponse> {
+  async create(@Body() createOrderDto: CreateOrderDto): Promise<OrderResponse> {
     // The service handles validation, transaction, and inventory update
     return await this.ordersService.placeOrder(createOrderDto);
   }
@@ -49,7 +57,9 @@ export class OrdersController {
     status: 404,
     description: 'Returned when an order with the given ID does not exist.',
   })
-  async findOne(@Param('id', ParseUUIDPipe) id: string): Promise<OrderResponse> {
+  async findOne(
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<OrderResponse> {
     const order = await this.ordersService.findOne(id);
 
     if (!order) {

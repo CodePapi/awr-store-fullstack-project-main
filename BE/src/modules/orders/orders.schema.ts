@@ -7,22 +7,34 @@ import { z } from 'zod';
  * Defines the shape of a single product item in the POST /orders request body.
  */
 export const OrderRequestItemSchema = z.object({
-  id: z.number().int().positive().describe('The ID of the product being ordered.'),
-  quantity: z.number().int().positive().min(1).describe('The quantity of the product to order.'),
+  id: z
+    .number()
+    .int()
+    .positive()
+    .describe('The ID of the product being ordered.'),
+  quantity: z
+    .number()
+    .int()
+    .positive()
+    .min(1)
+    .describe('The quantity of the product to order.'),
 });
 
 /**
  * Defines the shape of the entire POST /orders request body.
  */
 export const CreateOrderSchema = z.object({
-  customerId: z.string().uuid().describe('The UUID of the customer placing the order.'),
-  products: z.array(OrderRequestItemSchema)
+  customerId: z
+    .string()
+    .uuid()
+    .describe('The UUID of the customer placing the order.'),
+  products: z
+    .array(OrderRequestItemSchema)
     .min(1, 'An order must contain at least one product.')
     .describe('An array of products and quantities being ordered.'),
 });
 
 export class CreateOrderDto extends createZodDto(CreateOrderSchema) {}
-
 
 // --- 2. Order Response Schemas (For GET /orders/{id} Response) ---
 
@@ -41,7 +53,10 @@ export const OrderResponseItemSchema = z.object({
  */
 export const OrderResponseSchema = z.object({
   id: z.string().uuid().describe('The unique identifier of the order.'),
-  customerId: z.string().uuid().describe('The UUID of the customer who placed the order.'),
+  customerId: z
+    .string()
+    .uuid()
+    .describe('The UUID of the customer who placed the order.'),
   orderCreatedDate: z
     .string()
     .pipe(z.coerce.date())
@@ -50,9 +65,16 @@ export const OrderResponseSchema = z.object({
     .string()
     .pipe(z.coerce.date())
     .describe('The timestamp when the order was last updated.'),
-  status: z.enum(['PENDING', 'DISPATCHED', 'DELIVERED', 'CANCELED']).describe('The current status of the order.'),
-  orderTotal: z.number().min(0).describe('The total computed price of the order.'),
-  products: z.array(OrderResponseItemSchema).describe('The list of items included in the order.'),
+  status: z
+    .enum(['PENDING', 'DISPATCHED', 'DELIVERED', 'CANCELED'])
+    .describe('The current status of the order.'),
+  orderTotal: z
+    .number()
+    .min(0)
+    .describe('The total computed price of the order.'),
+  products: z
+    .array(OrderResponseItemSchema)
+    .describe('The list of items included in the order.'),
 });
 
 export class OrderResponse extends createZodDto(OrderResponseSchema) {}

@@ -5,7 +5,7 @@ import { OrdersService } from './orders.service';
 import { ProductsModule } from '../products/products.module';
 
 @Module({
-  imports: [PrismaModule, ProductsModule], 
+  imports: [PrismaModule, ProductsModule],
   controllers: [OrdersController],
   providers: [OrdersService],
 })

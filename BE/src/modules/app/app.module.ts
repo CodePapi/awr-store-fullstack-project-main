@@ -3,7 +3,7 @@ import { APP_PIPE } from '@nestjs/core';
 import { ZodValidationPipe } from 'nestjs-zod';
 
 import { ProductsModule } from 'src/modules/products/products.module';
-import { OrdersModule } from 'src/modules/orders/orders.module'; 
+import { OrdersModule } from 'src/modules/orders/orders.module';
 
 @Module({
   providers: [

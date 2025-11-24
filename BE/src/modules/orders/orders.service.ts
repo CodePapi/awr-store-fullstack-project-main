@@ -1,13 +1,21 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from 'src/modules/prisma/prisma.service';
 import { CreateOrderDto, OrderResponse } from './orders.schema';
 // Import all necessary models and types from the generated client
-import { Prisma, Product, PrismaClient } from 'src/common/generated/prisma-client'; 
+import {
+  Prisma,
+  Product,
+  PrismaClient,
+} from 'src/common/generated/prisma-client';
 import { ProductsService } from '../products/products.service';
 
-// Define a type for the transactional client, which is the most reliable way 
+// Define a type for the transactional client, which is the most reliable way
 // to ensure the compiler knows about the 'order' and 'product' models inside $transaction.
-type TransactionClient = Prisma.TransactionClient; 
+type TransactionClient = Prisma.TransactionClient;
 
 @Injectable()
 export class OrdersService {
@@ -24,17 +32,22 @@ export class OrdersService {
    */
   async placeOrder(dto: CreateOrderDto): Promise<OrderResponse> {
     // 1. Get product data and calculate total
-    const productIds = dto.products.map(p => p.id);
+    const productIds = dto.products.map((p) => p.id);
 
     // Use the correctly defined method from ProductsService
-    const productsInDb: Product[] = await this.productsService.findManyByIds(productIds);
+    const productsInDb: Product[] =
+      await this.productsService.findManyByIds(productIds);
 
     if (productsInDb.length !== productIds.length) {
       // Check if all requested products actually exist
-      throw new BadRequestException('One or more products specified in the order do not exist.');
+      throw new BadRequestException(
+        'One or more products specified in the order do not exist.',
+      );
     }
 
-    const productMap: Map<number, Product> = new Map(productsInDb.map(p => [p.id, p]));
+    const productMap: Map<number, Product> = new Map(
+      productsInDb.map((p) => [p.id, p]),
+    );
 
     let orderTotal = 0;
     // FIX: Use the correct type for the simple array of items destined for 'createMany'
@@ -70,37 +83,39 @@ export class OrdersService {
 
     // 3. Execute the Transaction
     // All database operations below must succeed or fail together
-    const newOrder = await this.prisma.$transaction(async (tx: TransactionClient) => {
-      // 3a. Create the Order
-      const createdOrder = await tx.order.create({
-        data: {
-          customerId: dto.customerId,
-          orderTotal: orderTotal,
-          status: 'DISPATCHED', 
-          orderItems: {
-            createMany: {
-              // The data array is correctly structured
-              data: orderItemsToCreate, 
-            },
-          },
-        },
-        include: { orderItems: true },
-      });
-
-      // 3b. Update Product Inventory (Decrement availableCount)
-      for (const item of dto.products) {
-        await tx.product.update({
-          where: { id: item.id },
+    const newOrder = await this.prisma.$transaction(
+      async (tx: TransactionClient) => {
+        // 3a. Create the Order
+        const createdOrder = await tx.order.create({
           data: {
-            availableCount: {
-              decrement: item.quantity,
+            customerId: dto.customerId,
+            orderTotal: orderTotal,
+            status: 'DISPATCHED',
+            orderItems: {
+              createMany: {
+                // The data array is correctly structured
+                data: orderItemsToCreate,
+              },
             },
           },
+          include: { orderItems: true },
         });
-      }
 
-      return createdOrder;
-    });
+        // 3b. Update Product Inventory (Decrement availableCount)
+        for (const item of dto.products) {
+          await tx.product.update({
+            where: { id: item.id },
+            data: {
+              availableCount: {
+                decrement: item.quantity,
+              },
+            },
+          });
+        }
+
+        return createdOrder;
+      },
+    );
 
     // 4. Return the structured response
     // The order was created successfully, so we are guaranteed to get a response object
@@ -114,7 +129,7 @@ export class OrdersService {
    */
   async findOne(id: string): Promise<OrderResponse> {
     const order = await this.mapOrderToResponse(id);
-    
+
     if (!order) {
       throw new NotFoundException(`Order with ID "${id}" not found.`);
     }
@@ -125,7 +140,9 @@ export class OrdersService {
   /**
    * Helper function to fetch and structure order data for the response DTO.
    */
-  private async mapOrderToResponse(orderId: string): Promise<OrderResponse | null> {
+  private async mapOrderToResponse(
+    orderId: string,
+  ): Promise<OrderResponse | null> {
     const order = await this.prisma.order.findUnique({
       where: { id: orderId },
       include: {
@@ -152,7 +169,7 @@ export class OrdersService {
       orderUpdatedDate: order.orderUpdatedDate,
       status: order.status,
       orderTotal: order.orderTotal,
-      products: order.orderItems.map(item => ({
+      products: order.orderItems.map((item) => ({
         id: item.productId,
         quantity: item.quantity,
         name: item.product.name,
