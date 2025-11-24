@@ -8,7 +8,7 @@ import { CreateProductDto } from './products.schema';
 export class ProductsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(createProductDto: CreateProductDto) {
+  async create(createProductDto: CreateProductDto): Promise<Product> {
     const created = await this.prisma.product.create({
       data: createProductDto,
     });
@@ -16,11 +16,16 @@ export class ProductsService {
     return created;
   }
 
-  // May be implemented
-  // @ts-ignore
-  async findMany(): Promise<Product[]> {}
+  // --- New Implementation for GET /products ---
+  /**
+   * Retrieves a list containing all existing products.
+   * Required for Stage 1.
+   */
+  async findAll(): Promise<Product[]> {
+    return await this.prisma.product.findMany();
+  }
 
-  // May be implemented
+  // May be implemented (kept for completeness, renamed to match controller convention)
   // @ts-ignore
   async findOne(): Promise<Product> {}
 
