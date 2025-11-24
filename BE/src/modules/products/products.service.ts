@@ -8,7 +8,7 @@ import { CreateProductDto } from './products.schema';
 export class ProductsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(createProductDto: CreateProductDto) {
+  async create(createProductDto: CreateProductDto): Promise<Product> {
     const created = await this.prisma.product.create({
       data: createProductDto,
     });
@@ -16,11 +16,27 @@ export class ProductsService {
     return created;
   }
 
-  // May be implemented
-  // @ts-ignore
-  async findMany(): Promise<Product[]> {}
+  // Implementation for GET /products
+  async findAll(): Promise<Product[]> {
+    return await this.prisma.product.findMany();
+  }
 
-  // May be implemented
+  // --- NEW METHOD REQUIRED FOR ORDERS SERVICE ---
+  /**
+   * Retrieves multiple products by their IDs.
+   * Crucial for validating inventory and getting prices during order creation.
+   */
+  async findManyByIds(ids: number[]): Promise<Product[]> {
+    return await this.prisma.product.findMany({
+      where: {
+        id: {
+          in: ids,
+        },
+      },
+    });
+  }
+
+  // May be implemented (kept for completeness, renamed to match controller convention)
   // @ts-ignore
   async findOne(): Promise<Product> {}
 
@@ -29,9 +45,6 @@ export class ProductsService {
   async updateOne(): Promise<Product> {}
 
   // May be implemented.
-  // Note: This operation returns a promise of GenericOperationResponse
-  // which contains a flag that denotes whether or not the operation
-  // was successful.
   //@ts-ignore
   async deleteOne(): Promise<GenericOperationResponse> {}
 }

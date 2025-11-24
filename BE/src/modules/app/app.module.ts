@@ -3,6 +3,7 @@ import { APP_PIPE } from '@nestjs/core';
 import { ZodValidationPipe } from 'nestjs-zod';
 
 import { ProductsModule } from 'src/modules/products/products.module';
+import { OrdersModule } from 'src/modules/orders/orders.module';
 
 @Module({
   providers: [
@@ -11,6 +12,6 @@ import { ProductsModule } from 'src/modules/products/products.module';
       useClass: ZodValidationPipe,
     },
   ],
-  imports: [ProductsModule],
+  imports: [ProductsModule, OrdersModule],
 })
 export class AppModule {}

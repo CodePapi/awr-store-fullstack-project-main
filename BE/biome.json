@@ -4,7 +4,7 @@
   "files": {
     "include": ["src", "test"],
     "ignoreUnknown": false,
-    "ignore": ["src/modules/module-bis/generated"]
+    "ignore": ["src/modules/module-bis/generated", "src/common/generated/prisma-client/**"]
   },
   "formatter": {
     "enabled": true,

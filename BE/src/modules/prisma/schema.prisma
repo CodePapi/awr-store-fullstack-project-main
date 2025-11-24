@@ -15,15 +15,56 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// --- STAGE 1: PRODUCT MODEL ---
 model Product {
-  id Int @id @default(autoincrement())
-  name String
-  description String
-  price Float
-  availableCount Int
-  createdAt           DateTime    @default(now())
-  updatedAt           DateTime    @updatedAt
+  id              Int       @id @default(autoincrement())
+  name            String
+  description     String
+  price           Float
+  availableCount  Int // Decremented when an order is placed
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  // Relationship to OrderItem
+  orderItems      OrderItem[]
 }
 
+// --- STAGE 2: ORDER MODELS ---
 
+// Defines the main Order record
+model Order {
+  id                  String      @id @default(uuid()) // Using UUID for order ID
+  customerId          String      // The customer's UUID
+  orderTotal          Float       // Computed total cost of the order
+  status              OrderStatus @default(PENDING) // Status of the order
+  orderCreatedDate    DateTime    @default(now())
+  orderUpdatedDate    DateTime    @updatedAt
 
+  // Relationship to OrderItem (the purchased products)
+  orderItems          OrderItem[]
+}
+
+// Defines the intermediary table for the many-to-many relationship
+// between Order and Product. This also stores the quantity and price
+// at the time of purchase.
+model OrderItem {
+  orderId           String
+  productId         Int
+  quantity          Int       // Quantity of the product in this order
+  priceAtOrder      Float     // Price of the product when the order was placed (crucial for integrity)
+
+  // Relationships
+  order             Order     @relation(fields: [orderId], references: [id])
+  product           Product   @relation(fields: [productId], references: [id])
+
+  // Composite primary key
+  @@id([orderId, productId])
+}
+
+// Enum for the Order status (as mentioned in the requirements response shape)
+enum OrderStatus {
+  PENDING
+  DISPATCHED
+  DELIVERED
+  CANCELED
+}
