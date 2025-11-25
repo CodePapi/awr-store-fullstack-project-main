@@ -1,34 +1,36 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
-import './App.css';
+// src/App.tsx
+
+import React from 'react';
+import { Outlet, Link } from 'react-router-dom';
+import { useCart } from './context/CartContext';
 
 function App() {
-  const [count, setCount] = useState(0);
+  const { items } = useCart();
+  const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div style={{ padding: '20px' }}>
+      <header style={{ borderBottom: '1px solid #ccc', paddingBottom: '10px', display: 'flex', justifyContent: 'space-between' }}>
+        <nav>
+          <Link to="/" style={{ marginRight: '15px' }}>Shop</Link>
+          <Link to="/admin">Admin</Link>
+        </nav>
+        {/* Simple Cart Indicator */}
+        {/* <div style={{ fontWeight: 'bold' }}>
+          🛒 Cart ({itemCount} {itemCount === 1 ? 'item' : 'items'})
+        </div> */}
+        <Link to="/cart" style={{ fontWeight: 'bold', textDecoration: 'none', color: 'inherit' }}>
+          🛒 Cart ({itemCount} {itemCount === 1 ? 'item' : 'items'})
+        </Link>
+      </header>
+      
+      <main style={{ marginTop: '20px' }}>
+        {/* This is where the specific page content (ShopPage, AdminDashboard, etc.) will render */}
+        <Outlet /> 
+      </main>
+      
+      {/* TODO: Implement a Cart Sidebar/Modal for the Checkout flow in Stage 2 */}
+    </div>
   );
 }
 

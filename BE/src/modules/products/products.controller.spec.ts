@@ -1,13 +1,25 @@
 import { Mocked, TestBed } from '@suites/unit';
 import { ProductsController } from './products.controller';
-import { CreateProductDto } from './products.schema';
+import { CreateProductDto, ProductResponse } from './products.schema';
 import { ProductsService } from './products.service';
 
-describe('Products Controller Unit Tests', () => {
+// Mock data matching the ProductResponse shape
+const mockProduct: ProductResponse = {
+  id: 1,
+  name: 'Test Product',
+  description: 'A description',
+  price: 10.99,
+  availableCount: 50,
+  createdAt: new Date(),
+  updatedAt: new Date(),
+};
+
+describe('Products Controller Unit Tests (Create & FindAll)', () => {
   let productsController: ProductsController;
   let productsService: Mocked<ProductsService>;
 
   beforeAll(async () => {
+    // Setup the testing module
     const { unit, unitRef } =
       await TestBed.solitary(ProductsController).compile();
 
@@ -19,26 +31,47 @@ describe('Products Controller Unit Tests', () => {
     jest.clearAllMocks();
   });
 
+  // --- 1. POST /products Test ---
   describe('create', () => {
-    it('should create a new product', async () => {
+    it('should call productsService.create with the DTO and return the created product', async () => {
       const createProductDto: CreateProductDto = {
         name: 'Foo Bar',
         description: 'The fooest of bars',
         price: 1.23,
         availableCount: 123,
       };
-      productsService.create = jest.fn();
 
-      await productsController.create(createProductDto);
+      // Mock the service implementation to return the created product
+      productsService.create.mockResolvedValue(mockProduct);
+
+      const result = await productsController.create(createProductDto);
+
+      // Assert service interaction
       expect(productsService.create).toHaveBeenCalledWith(createProductDto);
+
+      // Assert controller output
+      expect(result).toEqual(mockProduct);
     });
   });
 
-  // Note: The following test cases can be completed at your convenience.
-  // Furthermore, any additional tests for covering edge cases or to increase
-  // code coverage is left up to your discretion.
-  describe('findAll', async () => {});
-  describe('findOne', async () => {});
-  describe('update', async () => {});
-  describe('delete', async () => {});
+  // --- 2. GET /products Test ---
+  describe('findAll', () => {
+    it('should call productsService.findAll and return an array of products', async () => {
+      const mockProductList: ProductResponse[] = [
+        mockProduct,
+        { ...mockProduct, id: 2, name: 'Product 2', price: 20.0 },
+      ];
+
+      // Mock the service call to return a list of products
+      productsService.findAll.mockResolvedValue(mockProductList);
+
+      const result = await productsController.findAll();
+
+      // Assert service interaction
+      expect(productsService.findAll).toHaveBeenCalledTimes(1);
+
+      // Assert controller output
+      expect(result).toEqual(mockProductList);
+    });
+  });
 });
