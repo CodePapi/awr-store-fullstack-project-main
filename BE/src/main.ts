@@ -19,7 +19,11 @@ async function bootstrap() {
     AppModule,
     new FastifyAdapter(fastify()),
   );
-
+  app.enableCors({
+    origin: 'http://localhost:5173', // Explicitly allow your React dev server
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+  });
   const swaggerConfig = new DocumentBuilder()
     .setTitle(packageJson.name)
     .build();

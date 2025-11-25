@@ -4,7 +4,7 @@ import {
   ApiCreatedResponse,
   ApiExtraModels,
   ApiOperation,
-  ApiResponse, // Added for GET response
+  ApiResponse,
   getSchemaPath,
 } from '@nestjs/swagger';
 import { CreateProductDto, ProductResponse } from './products.schema';
