@@ -1,48 +1,44 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useParams } from 'react-router-dom';
-// import { OrderResponse } from '../types/api';
+import { useQuery } from '@tanstack/react-query'; // Import useQuery
 import { fetchOrder } from '../api/apiService';
 
 const OrderConfirmationPage: React.FC = () => {
+  // 1. Get the dynamic ID from the URL
   const { orderId } = useParams<{ orderId: string }>();
-  const [order, setOrder] = useState<any | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    async function loadOrder() {
-      if (!orderId) {
-        setError("Missing Order ID.");
-        setLoading(false);
-        return;
-      }
+  // Use useQuery to fetch the order details
+  const { 
+    data: order, 
+    isLoading, 
+    isError, 
+    error 
+  } = useQuery({
+    // Query key includes the specific ID to ensure caching is correct for each unique order
+    queryKey: ['order', orderId], 
+    // Query function only runs if orderId exists
+    queryFn: () => {
+        if (!orderId) throw new Error("Missing Order ID");
+        return fetchOrder(orderId);
+    },
+    // Prevent the query from running if orderId is falsy
+    enabled: !!orderId, 
+  });
 
-      try {
-        // API Call: GET /orders/:id
-        const data = await fetchOrder(orderId);
-        setOrder(data);
-      } catch (err) {
-        console.error("Error fetching order:", err);
-        setError(err instanceof Error ? err.message : 'Failed to load order details.');
-      } finally {
-        setLoading(false);
-      }
-    }
-    loadOrder();
-  }, [orderId]);
-
-  if (loading) {
-    return <h2>Loading Order Confirmation...</h2>;
+  if (!orderId) {
+    return <h2 style={{ color: 'red' }}>Error: Order ID is missing from the URL.</h2>;
   }
 
-  if (error) {
-    return <h2 style={{ color: 'red' }}>Error: {error}</h2>;
+  if (isLoading) {
+    return <h2>Loading Order Confirmation for ID: {orderId}...</h2>;
   }
 
-  if (!order) {
-    return <h2 style={{ color: 'red' }}>Order details unavailable.</h2>;
+  if (isError) {
+    // This handles 404 (Not Found) errors caught in the API service
+    return <h2 style={{ color: 'red' }}>Error: {error.message}</h2>;
   }
 
+  // Data (order) is guaranteed to be available here
   return (
     <div>
       <h1>🎉 Order Confirmed!</h1>
@@ -58,8 +54,10 @@ const OrderConfirmationPage: React.FC = () => {
         <h4>Items Ordered:</h4>
         <ul style={{ listStyleType: 'none', paddingLeft: '0' }}>
           {order.products.map((item) => (
-            <li key={item.id}>
-              {item.quantity} x {item.name} (${(order.orderTotal / item.quantity).toFixed(2)} each - *Note: Total calculation is simplified here*)
+            // Using item.id as the key is sufficient as product IDs are unique
+            <li key={item.id}> 
+              {item.quantity} x {item.name} 
+              {/* Note: Price per unit is not returned directly, so we display quantity and name. */}
             </li>
           ))}
         </ul>

@@ -1,52 +1,40 @@
 import React, { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 // import { Product } from '../types/api';
 import { fetchProducts } from '../api/apiService';
 import ProductCard from '../components/ProductCard'; // Import the new component
 
 const ShopPage = () => {
-  const [products, setProducts] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+ // Use useQuery to fetch and manage product state
+ const { data: products, isLoading, isError, error } = useQuery({
+  queryKey: ['products'], // Unique key for caching
+  queryFn: fetchProducts, // The function that fetches the data
+});
 
-  useEffect(() => {
-    async function loadProducts() {
-      try {
-        const data = await fetchProducts();
-        setProducts(data);
-      } catch (err) {
-        console.error("Error fetching products:", err);
-        setError('Failed to load products. Please check the backend connection.');
-      } finally {
-        setLoading(false);
-      }
-    }
-    loadProducts();
-  }, []);
+if (isLoading) {
+  return <h2>Loading Product Catalog...</h2>;
+}
 
-  if (loading) {
-    return <h2>Loading Product Catalog...</h2>;
-  }
-
-  if (error) {
-    return <h2 style={{ color: 'red' }}>Error: {error}</h2>;
-  }
+if (isError) {
+  // Error is of type Error from our API service
+  return <h2 style={{ color: 'red' }}>Error: {error.message}</h2>;
+}
   
-  // Requirement: Display a list or grid of all available products.
-  return (
-    <div>
-      <h1>🛍️ Product Catalog</h1>
-      <p>Browse our selection and add items to your cart!</p>
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
-        {products.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-      </div>
-      
-      {products.length === 0 && !loading && (
-        <p>No products available. Please create one via the Admin Dashboard.</p>
-      )}
+return (
+  <div>
+    <h1>🛍️ Product Catalog</h1>
+    <p>Browse our selection and add items to your cart!</p>
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
+      {products.map((product) => (
+        <ProductCard key={product.id} product={product} />
+      ))}
     </div>
-  );
+    
+    {products.length === 0 && (
+      <p>No products available. Please create one via the Admin Dashboard.</p>
+    )}
+  </div>
+);
 };
 
 export default ShopPage;
