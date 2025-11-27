@@ -1,8 +1,8 @@
 import type {
   CreateOrder,
+  CreateProduct,
   OrderResponse,
   Product,
-  CreateProduct,
 } from 'project-shared';
 
 const API_BASE_URL = 'http://localhost:3000';
@@ -25,7 +25,9 @@ export async function fetchProducts(): Promise<Product[]> {
 /**
  * Creates a new product. (POST /products)
  */
-export async function createProduct(payload: CreateProduct): Promise<CreateProduct> {
+export async function createProduct(
+  payload: CreateProduct,
+): Promise<CreateProduct> {
   const response = await fetch(`${API_BASE_URL}/products`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

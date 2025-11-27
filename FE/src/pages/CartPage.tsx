@@ -1,7 +1,7 @@
-import  { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useCart } from '../context/CartContext';
 import { placeOrder } from '../api/apiService';
+import { useCart } from '../context/CartContext';
 
 // Hardcoded Customer ID as required by instructions
 const CUSTOMER_ID = '7545afc6-c1eb-497a-9a44-4e6ba595b4ab';
@@ -95,6 +95,7 @@ const CartPage: React.FC = () => {
                   </td>
                   <td style={{ padding: '10px' }}>
                     <button
+                      type="button"
                       onClick={() => removeItem(item.productId)}
                       style={{ background: 'salmon' }}
                     >
@@ -125,6 +126,7 @@ const CartPage: React.FC = () => {
                 background: 'green',
                 color: 'white',
               }}
+              type="button"
             >
               {loading ? 'Processing...' : 'Place Order'}
             </button>

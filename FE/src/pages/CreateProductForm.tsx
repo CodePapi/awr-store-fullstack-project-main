@@ -1,7 +1,7 @@
+import type { CreateProduct } from 'project-shared';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createProduct } from '../api/apiService';
-import type { CreateProduct } from 'project-shared';
 
 const CreateProductForm: React.FC = () => {
   const navigate = useNavigate();

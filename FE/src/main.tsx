@@ -1,20 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider } from 'react-router'; 
+import { RouterProvider, createBrowserRouter } from 'react-router';
 
-import { CartProvider } from './context/CartContext';
 import App from './App';
-import ShopPage from './pages/ShopPage';
+import { CartProvider } from './context/CartContext';
 import AdminDashboard from './pages/AdminDashboard';
-import CreateProductForm from './pages/CreateProductForm';
-import OrderConfirmationPage from './pages/OrderConfirmationPage';
 import CartPage from './pages/CartPage';
+import CreateProductForm from './pages/CreateProductForm';
 import NotFound from './pages/NotFound'; // A simple fallback page
+import OrderConfirmationPage from './pages/OrderConfirmationPage';
+import ShopPage from './pages/ShopPage';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <App />, 
+    element: <App />,
     errorElement: <NotFound />,
     children: [
       // Stage 1: Customer Shop Page

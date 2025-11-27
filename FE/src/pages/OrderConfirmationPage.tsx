@@ -1,6 +1,6 @@
-import  { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import type { OrderResponse } from 'project-shared';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { fetchOrder } from '../api/apiService';
 
 const OrderConfirmationPage: React.FC = () => {

@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import type { Product } from 'project-shared';
+import { useState } from 'react';
 import { useCart } from '../context/CartContext';
 
 interface ProductCardProps {
@@ -63,6 +63,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           onClick={handleAddToCart}
           disabled={product.availableCount === 0}
           style={{ padding: '8px 12px', cursor: 'pointer' }}
+          type="button"
         >
           {product.availableCount > 0 ? 'Add to Cart' : 'Out of Stock'}
         </button>

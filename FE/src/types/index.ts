@@ -8,9 +8,8 @@ export interface CartItem {
 }
 
 export interface CreateProductType {
-    name: string;
-    description: string;
-    price: number;
-    availableCount: number;
-
+  name: string;
+  description: string;
+  price: number;
+  availableCount: number;
 }

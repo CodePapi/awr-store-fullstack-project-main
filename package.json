@@ -1,14 +1,16 @@
 {
-    "name": "awr-store-project",
-    "private": true,
-    "version": "1.0.0",
-    "workspaces": [
-      "apps/*",
-      "packages/*"
-    ],
-   
-    "devDependencies": {
-      "typescript": "^5.8.3"
-    }
-  }
-  
+	"name": "awr-store-project",
+	"private": true,
+	"version": "1.0.0",
+	"workspaces": ["BE", "FE", "shared"],
+	"scripts": {
+		"start-all": "npm run build --workspace=shared && concurrently \"npm run start:dev --workspace=BE\" \"npm run dev --workspace=FE\"",
+		"biome:format": "biome format --write .",
+		"biome:lint": "biome lint .",
+		"biome:fix": "biome check --apply ."
+	},
+	"devDependencies": {
+		"concurrently": "^9.2.1",
+		"@biomejs/biome": "^1.5.3"
+	}
+}
