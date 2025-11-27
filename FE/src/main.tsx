@@ -16,10 +16,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'; // Import Router components
-import { CartProvider } from './context/CartContext'; 
+import { CartProvider } from './context/CartContext';
 import App from './App';
 // Import your planned page components (will be created next)
-import ShopPage from './pages/ShopPage'; 
+import ShopPage from './pages/ShopPage';
 import AdminDashboard from './pages/AdminDashboard';
 import CreateProductForm from './pages/CreateProductForm';
 import OrderConfirmationPage from './pages/OrderConfirmationPage';
@@ -35,10 +35,10 @@ const router = createBrowserRouter([
     children: [
       // Stage 1: Customer Shop Page
       {
-        index: true, 
+        index: true,
         element: <ShopPage />,
       },
-      
+
       // Stage 1: Admin Dashboard and Creation
       {
         path: 'admin',
@@ -48,16 +48,16 @@ const router = createBrowserRouter([
         path: 'admin/new',
         element: <CreateProductForm />,
       },
-      
+
       // Stage 2: Order Confirmation Page (Dynamic ID required)
       {
         path: 'orders/:orderId',
         element: <OrderConfirmationPage />,
       },
       {
-        path: 'cart', 
+        path: 'cart',
         element: <CartPage />,
-    },
+      },
     ],
   },
 ]);

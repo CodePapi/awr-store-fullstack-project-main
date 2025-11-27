@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
-// import { Product } from '../types/api';
+import type { Product } from 'project-shared';
 import { useCart } from '../context/CartContext';
 
 interface ProductCardProps {
-  product: any;
+  product: Product;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+const ProductCard: React.FC<ProductCardProps> = ({
+  product,
+}: ProductCardProps) => {
   // Local state for the quantity input
-  const [quantity, setQuantity] = useState(1); 
+  const [quantity, setQuantity] = useState(1);
   const { addItem } = useCart();
 
   const handleAddToCart = () => {
@@ -31,14 +33,21 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   };
 
   return (
-    <div style={{ border: '1px solid #ddd', padding: '15px', margin: '10px', width: '300px' }}>
+    <div
+      style={{
+        border: '1px solid #ddd',
+        padding: '15px',
+        margin: '10px',
+        width: '300px',
+      }}
+    >
       <h4>{product.name}</h4>
       <p>{product.description}</p>
-      
+
       {/* Required Display */}
       <p style={{ fontWeight: 'bold' }}>Price: ${product.price.toFixed(2)}</p>
       <p>Available: {product.availableCount}</p>
-      
+
       {/* Add to Cart Interface */}
       <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
         <input
@@ -50,8 +59,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           style={{ width: '60px', marginRight: '10px', padding: '5px' }}
           disabled={product.availableCount === 0}
         />
-        <button 
-          onClick={handleAddToCart} 
+        <button
+          onClick={handleAddToCart}
           disabled={product.availableCount === 0}
           style={{ padding: '8px 12px', cursor: 'pointer' }}
         >

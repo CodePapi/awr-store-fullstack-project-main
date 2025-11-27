@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-// import { Product } from '../types/api';
+import type { Product } from 'project-shared';
 import { fetchProducts } from '../api/apiService';
 import AdminProductTable from '../components/AdminProductTable';
 
 const AdminDashboard = () => {
-  const [products, setProducts] = useState<any[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -17,8 +17,10 @@ const AdminDashboard = () => {
       const data = await fetchProducts();
       setProducts(data);
     } catch (err) {
-      console.error("Error fetching products:", err);
-      setError('Failed to load product dashboard. Please check the backend connection.');
+      console.error('Error fetching products:', err);
+      setError(
+        'Failed to load product dashboard. Please check the backend connection.',
+      );
     } finally {
       setLoading(false);
     }
@@ -39,10 +41,16 @@ const AdminDashboard = () => {
   return (
     <div>
       <h1>⚙️ Admin Product Dashboard</h1>
-      
+
       {/* Required Link/Button to Create New Product */}
       <Link to="/admin/new">
-        <button style={{ padding: '10px 15px', marginBottom: '20px', cursor: 'pointer' }}>
+        <button
+          style={{
+            padding: '10px 15px',
+            marginBottom: '20px',
+            cursor: 'pointer',
+          }}
+        >
           ➕ Create New Product
         </button>
       </Link>

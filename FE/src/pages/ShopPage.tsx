@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-// import { Product } from '../types/api';
+import type { Product } from 'project-shared';
 import { fetchProducts } from '../api/apiService';
 import ProductCard from '../components/ProductCard'; // Import the new component
 
 const ShopPage = () => {
-  const [products, setProducts] = useState<any[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -14,8 +14,10 @@ const ShopPage = () => {
         const data = await fetchProducts();
         setProducts(data);
       } catch (err) {
-        console.error("Error fetching products:", err);
-        setError('Failed to load products. Please check the backend connection.');
+        console.error('Error fetching products:', err);
+        setError(
+          'Failed to load products. Please check the backend connection.',
+        );
       } finally {
         setLoading(false);
       }
@@ -30,7 +32,7 @@ const ShopPage = () => {
   if (error) {
     return <h2 style={{ color: 'red' }}>Error: {error}</h2>;
   }
-  
+
   // Requirement: Display a list or grid of all available products.
   return (
     <div>
@@ -41,7 +43,7 @@ const ShopPage = () => {
           <ProductCard key={product.id} product={product} />
         ))}
       </div>
-      
+
       {products.length === 0 && !loading && (
         <p>No products available. Please create one via the Admin Dashboard.</p>
       )}

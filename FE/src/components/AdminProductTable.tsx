@@ -1,18 +1,27 @@
 import React from 'react';
-// import { Product } from '../types/api';
+import type { Product } from 'project-shared';
 
 interface AdminProductTableProps {
-  products: any[];
+  products: Product[];
 }
 
-const AdminProductTable: React.FC<AdminProductTableProps> = ({ products }) => {
+const AdminProductTable: React.FC<AdminProductTableProps> = ({
+  products,
+}: AdminProductTableProps) => {
   if (products.length === 0) {
-    return <p>No products found in the database. Use the "Create New Product" button to add one.</p>;
+    return (
+      <p>
+        No products found in the database. Use the "Create New Product" button
+        to add one.
+      </p>
+    );
   }
 
   return (
     <div style={{ overflowX: 'auto' }}>
-      <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+      <table
+        style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}
+      >
         <thead>
           <tr style={{ borderBottom: '2px solid #333' }}>
             <th style={{ padding: '10px' }}>ID</th>
