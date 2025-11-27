@@ -1,4 +1,4 @@
-import type { Product } from "project-shared";
+import type { Product } from 'project-shared';
 
 export interface CartItem {
   productId: number;

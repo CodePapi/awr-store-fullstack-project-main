@@ -1,5 +1,4 @@
-import  ProductCard from "./ProductCard"
-import AdminProductTable from "./AdminProductTable"
+import AdminProductTable from './AdminProductTable';
+import ProductCard from './ProductCard';
 
-
-export {ProductCard, AdminProductTable}
+export { ProductCard, AdminProductTable };

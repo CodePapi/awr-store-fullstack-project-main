@@ -22,7 +22,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
       availableCount: product.availableCount,
     });
 
-    setQuantity(1); 
+    setQuantity(1);
     alert(`${quantity} x ${product.name} added to cart!`);
   };
 

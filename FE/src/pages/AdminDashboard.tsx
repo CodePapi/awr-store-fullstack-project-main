@@ -2,8 +2,7 @@ import type { Product } from 'project-shared';
 import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchProducts } from '../api';
-import {AdminProductTable} from '../components';
-
+import { AdminProductTable } from '../components';
 
 const AdminDashboard = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -14,7 +13,7 @@ const AdminDashboard = () => {
     setLoading(true);
     setError(null);
     try {
-      const data = await fetchProducts(); 
+      const data = await fetchProducts();
       setProducts(data);
     } catch (err) {
       console.error('Error fetching products:', err);

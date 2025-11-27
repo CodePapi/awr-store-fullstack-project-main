@@ -31,7 +31,6 @@ const OrderConfirmationPage: React.FC = () => {
     }
     loadOrder();
   }, [orderId]);
-  
 
   if (loading) {
     return <h2>Loading Order Confirmation...</h2>;

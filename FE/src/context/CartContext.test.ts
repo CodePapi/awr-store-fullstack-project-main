@@ -1,38 +1,40 @@
+import { CartItem, CartState } from '../types';
 import { cartReducer, initialCartState } from './CartContext';
-import { CartState, CartItem } from '../types'; 
 
 // Mock data for testing
 const mockItem1: CartItem = {
-    productId: 101,
-    name: 'Laptop Charger',
-    price: 50.0,
-    quantity: 1,
-    availableCount: 0
+  productId: 101,
+  name: 'Laptop Charger',
+  price: 50.0,
+  quantity: 1,
+  availableCount: 0,
 };
 
 const mockItem2: CartItem = {
-    productId: 202,
-    name: 'Wireless Mouse',
-    price: 25.0,
-    quantity: 2,
-    availableCount: 0
+  productId: 202,
+  name: 'Wireless Mouse',
+  price: 25.0,
+  quantity: 2,
+  availableCount: 0,
 };
 
 const mockItem3: CartItem = {
-    productId: 101,
-    name: 'Laptop Charger',
-    price: 50.0,
-    quantity: 3,
-    availableCount: 0
+  productId: 101,
+  name: 'Laptop Charger',
+  price: 50.0,
+  quantity: 3,
+  availableCount: 0,
 };
 
 describe('cartReducer', () => {
-
   // --- Initial State Test ---
   test('should return the initial state for unknown actions', () => {
-    const action = { type: 'UNKNOWN_ACTION', payload: {} };
+    const action: {
+      type: 'REMOVE_ITEM';
+      payload: number;
+    } = { type: 'REMOVE_ITEM', payload: 0 };
     // We expect the state to be returned unchanged if the action type is not handled
-    expect(cartReducer(initialCartState, action as any)).toEqual(initialCartState);
+    expect(cartReducer(initialCartState, action)).toEqual(initialCartState);
   });
 
   // --- ADD_ITEM Tests ---
@@ -41,7 +43,7 @@ describe('cartReducer', () => {
       const action: {
         type: 'ADD_ITEM';
         payload: CartItem;
-    } = { type: 'ADD_ITEM', payload: mockItem1 };
+      } = { type: 'ADD_ITEM', payload: mockItem1 };
       const newState = cartReducer(initialCartState, action);
 
       expect(newState.items).toHaveLength(1);
@@ -53,7 +55,7 @@ describe('cartReducer', () => {
       const action: {
         type: 'ADD_ITEM';
         payload: CartItem;
-    } = { type: 'ADD_ITEM', payload: mockItem2 };
+      } = { type: 'ADD_ITEM', payload: mockItem2 };
       const newState = cartReducer(stateWithItem1, action);
 
       expect(newState.items).toHaveLength(2);
@@ -62,10 +64,10 @@ describe('cartReducer', () => {
 
     test('should increment quantity if the item already exists in the cart', () => {
       const stateWithItem1: CartState = { items: [mockItem1] }; // Item 1: Qty 1
-      const action : {
+      const action: {
         type: 'ADD_ITEM';
         payload: CartItem;
-    } = { type: 'ADD_ITEM', payload: mockItem3 }; // Adding 3 more
+      } = { type: 'ADD_ITEM', payload: mockItem3 }; // Adding 3 more
 
       const newState = cartReducer(stateWithItem1, action);
 
@@ -85,10 +87,10 @@ describe('cartReducer', () => {
 
     test('should remove the specified item from the cart', () => {
       // Remove mockItem1 (productId: 101)
-      const action:{
+      const action: {
         type: 'REMOVE_ITEM';
         payload: number;
-    } = { type: 'REMOVE_ITEM', payload: mockItem1.productId };
+      } = { type: 'REMOVE_ITEM', payload: mockItem1.productId };
       const newState = cartReducer(stateWithTwoItems, action);
 
       expect(newState.items).toHaveLength(1);
@@ -98,10 +100,10 @@ describe('cartReducer', () => {
 
     test('should return the state unchanged if the item to remove is not found', () => {
       // Attempt to remove an item that does not exist (productId: 999)
-      const action:{
+      const action: {
         type: 'REMOVE_ITEM';
         payload: number;
-    } = { type: 'REMOVE_ITEM', payload: 999 };
+      } = { type: 'REMOVE_ITEM', payload: 999 };
       const newState = cartReducer(stateWithTwoItems, action);
 
       expect(newState.items).toHaveLength(2);
@@ -113,13 +115,13 @@ describe('cartReducer', () => {
   describe('CLEAR_CART', () => {
     test('should reset the items array to empty', () => {
       const stateWithItems: CartState = { items: [mockItem1, mockItem2] };
-      const action : {
+      const action: {
         type: 'CLEAR_CART';
         payload: number;
-    } = {
+      } = {
         type: 'CLEAR_CART',
-        payload: 0
-    };
+        payload: 0,
+      };
       const newState = cartReducer(stateWithItems, action);
 
       expect(newState.items).toHaveLength(0);
