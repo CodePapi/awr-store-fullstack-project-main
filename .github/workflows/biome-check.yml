@@ -1,0 +1,31 @@
+name: Biome Lint and Format Check
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  biome_check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ⬇️ Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' 
+
+      - name: 📦 Install Dependencies
+        run: npm install
+
+      - name: 📝 Run Biome Lint Check
+        run: npm run biome:lint
+
+      - name: 📏 Run Biome Format Check
+        run: npm run biome:format

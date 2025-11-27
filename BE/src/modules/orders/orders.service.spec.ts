@@ -1,9 +1,9 @@
-import { Mocked, TestBed } from '@suites/unit';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
-import { OrdersService } from './orders.service';
+import { Mocked, TestBed } from '@suites/unit';
 import { PrismaService } from 'src/modules/prisma/prisma.service';
 import { ProductsService } from '../products/products.service';
 import { CreateOrderDto, OrderResponse } from './orders.schema';
+import { OrdersService } from './orders.service';
 
 // --- Mock Data ---
 

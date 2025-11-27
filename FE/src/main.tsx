@@ -1,68 +1,48 @@
-// import { StrictMode } from 'react';
-// import { createRoot } from 'react-dom/client';
-// import './index.css';
-// import App from './App.tsx';
-
-// createRoot(document.getElementById('root')!).render(
-//   <StrictMode>
-//     <App />
-//   </StrictMode>,
-// );
-
-// src/main.tsx
-
-// src/main.tsx
-
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'; // Import Router components
-import { CartProvider } from './context/CartContext'; 
+import { RouterProvider, createBrowserRouter } from 'react-router';
 import App from './App';
-// Import your planned page components (will be created next)
-import ShopPage from './pages/ShopPage'; 
+import { CartProvider } from './context/CartContext';
 import AdminDashboard from './pages/AdminDashboard';
-import CreateProductForm from './pages/CreateProductForm';
-import OrderConfirmationPage from './pages/OrderConfirmationPage';
 import CartPage from './pages/CartPage';
-import NotFound from './pages/NotFound'; // A simple fallback page
+import CreateProductForm from './pages/CreateProductForm';
+import NotFound from './pages/NotFound'; 
+import OrderConfirmationPage from './pages/OrderConfirmationPage';
+import ShopPage from './pages/ShopPage';
 
-// --- Define the Routes ---
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <App />, // Main layout/template
+    element: <App />,
     errorElement: <NotFound />,
     children: [
-      // Stage 1: Customer Shop Page
       {
-        index: true, 
+        index: true,
         element: <ShopPage />,
       },
-      
-      // Stage 1: Admin Dashboard and Creation
+
+
       {
         path: 'admin',
         element: <AdminDashboard />,
       },
       {
         path: 'admin/new',
-        element: <CreateProductForm />,
+        element: <CreateProductForm /> ,
       },
-      
-      // Stage 2: Order Confirmation Page (Dynamic ID required)
+
       {
         path: 'orders/:orderId',
         element: <OrderConfirmationPage />,
       },
       {
-        path: 'cart', 
+        path: 'cart',
         element: <CartPage />,
-    },
+      },
     ],
   },
 ]);
 
-// --- Render the Application with Router and Context ---
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <CartProvider>

@@ -3,15 +3,11 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { PrismaService } from 'src/modules/prisma/prisma.service';
-import { CreateOrderDto, OrderResponse } from './orders.schema';
 // Import all necessary models and types from the generated client
-import {
-  Prisma,
-  Product,
-  PrismaClient,
-} from 'src/common/generated/prisma-client';
+import { Prisma, Product } from '../../common/generated/prisma-client';
+import { PrismaService } from '../prisma/prisma.service';
 import { ProductsService } from '../products/products.service';
+import { CreateOrderDto, OrderResponse } from './orders.schema';
 
 // Define a type for the transactional client, which is the most reliable way
 // to ensure the compiler knows about the 'order' and 'product' models inside $transaction.

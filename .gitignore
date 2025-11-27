@@ -1,10 +1,15 @@
 # compiled output & generated
-/dist
-/node_modules
-/src/common/generated
-
-# OS
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+build/
+**/build/
+out/
+**/out/
+/BE/src/common/generated
 .DS_Store
+Thumbs.db
 
 # Tests
 /coverage
@@ -16,4 +21,8 @@
 !.vscode/launch.json
 !.vscode/extensions.json
 
+# Environment files (sensitive)
 .env
+.env.*
+**/.env
+**/.env.*

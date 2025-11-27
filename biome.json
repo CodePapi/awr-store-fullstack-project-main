@@ -4,7 +4,17 @@
   "files": {
     "include": ["src", "test"],
     "ignoreUnknown": false,
-    "ignore": ["src/modules/module-bis/generated", "src/common/generated/prisma-client/**"]
+    "ignore": [
+      "src/modules/module-bis/generated",
+      "src/common/generated/prisma-client/**",
+      "**/node_modules",
+      "BE/dist/**",
+      "FE/dist/**",
+      "shared/dist/**",
+      "FE/build/**",
+      "**/*.spec.ts",
+      "FE/src/main.tsx"
+    ]
   },
   "formatter": {
     "enabled": true,

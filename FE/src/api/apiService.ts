@@ -1,81 +1,80 @@
-// src/api/apiService.ts
+import type {
+  CreateOrder,
+  CreateProduct,
+  OrderResponse,
+  Product,
+} from 'project-shared';
 
-import { 
-    // Product, 
-    // CreateOrderPayload, 
-    // OrderResponse, 
-    // CreateProductPayload, 
-  } from '../types/api'; 
-  
-  const API_BASE_URL = 'http://localhost:3000'; 
-  
-  // --- Product Endpoints ---
-  
-  /**
-   * Fetches the entire product catalog. (GET /products)
-   */
-  export async function fetchProducts(): Promise<any[]> {
-    const response = await fetch(`${API_BASE_URL}/products`);
-    console.log("products", response)
-    if (!response.ok) {
-        console.log("failed to logg")
-      throw new Error('Failed to fetch products');
-    }
-    return response.json();
+const API_BASE_URL = 'http://localhost:3000';
+
+// --- Product Endpoints ---
+
+/**
+ * Fetches the entire product catalog. (GET /products)
+ */
+export async function fetchProducts(): Promise<Product[]> {
+  const response = await fetch(`${API_BASE_URL}/products`);
+  console.log('products', response);
+  if (!response.ok) {
+    console.log('failed to logg');
+    throw new Error('Failed to fetch products');
   }
-  
-  /**
-   * Creates a new product. (POST /products)
-   */
-  export async function createProduct(payload: any): Promise<any> {
-    const response = await fetch(`${API_BASE_URL}/products`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
-    
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || 'Failed to create product.');
-    }
-  
-    return response.json();
+  return response.json();
+}
+
+/**
+ * Creates a new product. (POST /products)
+ */
+export async function createProduct(
+  payload: CreateProduct,
+): Promise<CreateProduct> {
+  const response = await fetch(`${API_BASE_URL}/products`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || 'Failed to create product.');
   }
-  
-  
-  // --- Order Endpoints ---
-  
-  /**
-   * Places a new order. (POST /orders)
-   */
-  export async function placeOrder(payload: any): Promise<any> {
-    const response = await fetch(`${API_BASE_URL}/orders`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
-  
-    if (!response.ok) {
-      const errorData = await response.json();
-      // Provides specific error feedback for inventory issues
-      throw new Error(errorData.message || 'Failed to place order.');
-    }
-  
-    return response.json();
+
+  return response.json();
+}
+
+// --- Order Endpoints ---
+
+/**
+ * Places a new order. (POST /orders)
+ */
+export async function placeOrder(payload: CreateOrder): Promise<OrderResponse> {
+  const response = await fetch(`${API_BASE_URL}/orders`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    // Provides specific error feedback for inventory issues
+    throw new Error(errorData.message || 'Failed to place order.');
   }
-  
-  /**
-   * Fetches details for a specific order. (GET /orders/:id)
-   */
-  export async function fetchOrder(orderId: string): Promise<any> {
-    const response = await fetch(`${API_BASE_URL}/orders/${orderId}`);
-    
-    if (!response.ok) {
-      if (response.status === 404) {
-          throw new Error(`Order ${orderId} not found.`);
-      }
-      throw new Error('Failed to fetch order details.');
+
+  return response.json();
+}
+
+/**
+ * Fetches details for a specific order. (GET /orders/:id)
+ */
+export async function fetchOrder(orderId: string): Promise<OrderResponse> {
+  const response = await fetch(`${API_BASE_URL}/orders/${orderId}`);
+
+  if (!response.ok) {
+    if (response.status === 404) {
+      throw new Error(`Order ${orderId} not found.`);
     }
-  
-    return response.json();
+    throw new Error('Failed to fetch order details.');
   }
+
+  return response.json();
+}
