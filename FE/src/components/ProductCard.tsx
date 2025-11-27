@@ -1,6 +1,6 @@
 import type { Product } from 'project-shared';
 import { useState } from 'react';
-import { useCart } from '../context/CartContext';
+import { useCart } from '../hooks';
 
 interface ProductCardProps {
   product: Product;

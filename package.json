@@ -7,7 +7,6 @@
 		"dev": "docker compose up",
     	"dev:build": "docker compose up --build",
     	"dev:down": "docker compose down",
-		"start-all": "npm run build --workspace=shared && concurrently \"npm run start:dev --workspace=BE\" \"npm run dev --workspace=FE\"",
 		"biome:format": "biome format --write .",
 		"biome:lint": "biome lint .",
 		"biome:fix": "biome check --apply ."

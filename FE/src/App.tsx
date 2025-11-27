@@ -1,8 +1,5 @@
-// src/App.tsx
-
-import React from 'react';
 import { Link, Outlet } from 'react-router-dom';
-import { useCart } from './context/CartContext';
+import { useCart } from './hooks';
 
 function App() {
   const { items } = useCart();

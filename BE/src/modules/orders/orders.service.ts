@@ -4,10 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 // Import all necessary models and types from the generated client
-import {
-  Prisma,
-  Product,
-} from '../../common/generated/prisma-client';
+import { Prisma, Product } from '../../common/generated/prisma-client';
 import { PrismaService } from '../prisma/prisma.service';
 import { ProductsService } from '../products/products.service';
 import { CreateOrderDto, OrderResponse } from './orders.schema';
