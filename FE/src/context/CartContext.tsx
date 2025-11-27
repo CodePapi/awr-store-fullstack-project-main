@@ -1,6 +1,10 @@
-import { ReactNode, createContext,  useReducer } from 'react';
-import type { CartItem, CartState, CartAction,CartContextType } from '../types';
-
+import { ReactNode, createContext, useReducer } from 'react';
+import type {
+  CartAction,
+  CartContextType,
+  CartItem,
+  CartState,
+} from '../types';
 
 const initialCartState: CartState = {
   items: [],
@@ -44,7 +48,9 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
   }
 };
 
-export const CartContext = createContext<CartContextType | undefined>(undefined);
+export const CartContext = createContext<CartContextType | undefined>(
+  undefined,
+);
 
 export const CartProvider: React.FC<{ children: ReactNode }> = ({
   children,
