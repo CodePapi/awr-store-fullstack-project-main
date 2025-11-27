@@ -6,10 +6,3 @@ export interface CartItem {
   name: string;
   availableCount: number;
 }
-
-export interface CreateProductType {
-  name: string;
-  description: string;
-  price: number;
-  availableCount: number;
-}

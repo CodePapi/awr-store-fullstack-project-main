@@ -9,7 +9,6 @@ import {
   Post,
 } from '@nestjs/common';
 import {
-  ApiBadRequestResponse,
   ApiCreatedResponse,
   ApiExtraModels,
   ApiOperation,

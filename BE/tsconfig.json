@@ -1,6 +1,5 @@
 {
 	"compilerOptions": {
-		"typeDepthLimit": 100,
 		"esModuleInterop": true,
 		"skipLibCheck": true,
 		"target": "ES2022",
