@@ -21,10 +21,6 @@ function App() {
           </Link>
           <Link to="/admin">Admin</Link>
         </nav>
-        {/* Simple Cart Indicator */}
-        {/* <div style={{ fontWeight: 'bold' }}>
-          🛒 Cart ({itemCount} {itemCount === 1 ? 'item' : 'items'})
-        </div> */}
         <Link
           to="/cart"
           style={{

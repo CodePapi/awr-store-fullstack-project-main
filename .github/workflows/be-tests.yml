@@ -1,0 +1,68 @@
+name: BE Tests
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'BE/**'
+      - 'package.json'
+  pull_request:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'BE/**'
+      - 'package.json'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    # 1. 💡 Set up the PostgreSQL test database service
+    services:
+      postgres:
+        image: postgres:14 # Use the specific version you need
+        env:
+          POSTGRES_USER: runner
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: testdb
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    # 2. 🔑 Set the environment variable for the tests
+    env:
+      DATABASE_URL: postgresql://runner:password@localhost:5432/testdb
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies (Root and Workspaces)
+        run: npm install
+
+      - name: ⏳ Wait for DB to be ready
+        run: sleep 5
+      
+      - name: 🧬 Run Prisma Migrations (Apply schema to test DB)
+        # This command connects to the test DB and applies your schema
+        run: cd BE && npx prisma migrate deploy
+
+      - name: 🛠️ Generate Prisma Client
+        # This creates the missing 'src/common/generated/prisma-client' files
+        run: cd BE && npx prisma generate
+        
+      - name: 🧪 Run Backend Tests
+        # This calls 'npm run test:be' from the root
+        run: npm run test:be

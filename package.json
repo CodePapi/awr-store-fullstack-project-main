@@ -7,6 +7,8 @@
 		"dev": "docker compose up",
     	"dev:build": "docker compose up --build",
     	"dev:down": "docker compose down",
+		"test:fe": "npm run test --workspace=FE",
+   		"test:be": "npm run test --workspace=BE",
 		"biome:format": "biome format --write .",
 		"biome:lint": "biome lint .",
 		"biome:fix": "biome check --apply ."

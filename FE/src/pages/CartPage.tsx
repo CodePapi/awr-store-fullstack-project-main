@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { placeOrder } from '../api/apiService';
+import { placeOrder } from '../api';
 import { useCart } from '../hooks';
 
 // Hardcoded Customer ID as required by instructions
