@@ -22,11 +22,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20' 
+
       - name: 📦 Install Dependencies
         run: npm install
 
       - name: 📝 Run Biome Lint Check
         run: npm run biome:lint
 
-      - name: 📏 Run Biome Format Check
-        run: npx biome format --check .
+      - name: 📏 Run Biome Format Check (Non-Destructive)
+        run: npm run biome:check-format
