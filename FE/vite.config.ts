@@ -9,8 +9,11 @@ export default defineConfig({
 			typescript: true,
 		}),
 	],
-	// ,
-	//   optimizeDeps: {
-	//     include: ['project-shared'],
-	//   },
+	server: {
+		host: true, 
+		port: 5173, 
+		watch: {
+		  usePolling: true 
+		}
+	  },
 });

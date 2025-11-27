@@ -1,0 +1,13 @@
+# FE/Dockerfile
+
+# Base stage
+FROM node:20-alpine AS base
+
+# Set working directory
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+RUN npm install
+
+FROM base AS development
+CMD ["npm", "run", "dev", "--workspace=FE"]

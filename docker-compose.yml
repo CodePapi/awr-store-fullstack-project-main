@@ -1,0 +1,63 @@
+version: '3.9'
+
+services:
+  # 1. PostgreSQL Database Service
+  awr-pg:
+    image: postgres:14.17-alpine
+    container_name: awr-be-project-pg
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: awr
+    ports:
+      - 5432:5432
+    networks:
+      - awr-network
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U user -d awr']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # 2. Backend (NestJS) Service
+  awr-be:
+    build:
+      context: . 
+      dockerfile: ./BE/Dockerfile 
+      target: development 
+    container_name: awr-be
+    depends_on:
+      awr-pg:
+        condition: service_healthy
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/app
+      - /app/BE/node_modules
+    networks:
+      - awr-network
+    command: sh -c "npm run build --workspace=shared && cd BE && npx prisma migrate deploy && cd .. && npm run start:dev --workspace=BE"  
+  # 3. Frontend (Vite/React) Service
+  awr-fe:
+    build:
+      context: .
+      dockerfile: ./FE/Dockerfile 
+    container_name: awr-fe
+    ports:
+      - 5173:5173
+    volumes:
+      - .:/app
+      - /app/FE/node_modules
+      - /app/shared/node_modules
+    command: sh -c "npm install && npm run dev --workspace=FE"
+    depends_on:
+      - awr-be
+    networks:
+      - awr-network
+
+networks:
+  awr-network:
+    name: awr-network
+    driver: bridge
