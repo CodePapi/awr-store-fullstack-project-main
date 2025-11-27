@@ -29,5 +29,5 @@ jobs:
       - name: 📝 Run Biome Lint Check
         run: npm run biome:lint
 
-      - name: 📏 Run Biome Format Check (Non-Destructive)
-        run: npm run biome:check-format
+      - name: 📏 Run Biome Format Check
+        run: npm run biome:format

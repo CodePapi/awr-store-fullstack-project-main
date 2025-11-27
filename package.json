@@ -9,8 +9,7 @@
     	"dev:down": "docker compose down",
 		"biome:format": "biome format --write .",
 		"biome:lint": "biome lint .",
-		"biome:fix": "biome check --apply .",
-		"biome:check-format": "biome check --skip-lint ."
+		"biome:fix": "biome check --apply ."
 	},
 	"devDependencies": {
 		"concurrently": "^9.2.1",
