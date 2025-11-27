@@ -1,7 +1,7 @@
 import type { OrderResponse } from 'project-shared';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchOrder } from '../api/apiService';
+import { fetchOrder } from '../api';
 
 const OrderConfirmationPage: React.FC = () => {
   const { orderId } = useParams<{ orderId: string }>();
@@ -18,7 +18,6 @@ const OrderConfirmationPage: React.FC = () => {
       }
 
       try {
-        // API Call: GET /orders/:id
         const data = await fetchOrder(orderId);
         setOrder(data);
       } catch (err) {
@@ -32,6 +31,7 @@ const OrderConfirmationPage: React.FC = () => {
     }
     loadOrder();
   }, [orderId]);
+  
 
   if (loading) {
     return <h2>Loading Order Confirmation...</h2>;

@@ -1,15 +1,10 @@
-import type { Product } from 'project-shared';
 import { useState } from 'react';
 import { useCart } from '../hooks';
-
-interface ProductCardProps {
-  product: Product;
-}
+import type { ProductCardProps } from '../types';
 
 const ProductCard: React.FC<ProductCardProps> = ({
   product,
 }: ProductCardProps) => {
-  // Local state for the quantity input
   const [quantity, setQuantity] = useState(1);
   const { addItem } = useCart();
 
@@ -19,7 +14,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
       return;
     }
 
-    // Add item to the global cart context
     addItem({
       productId: product.id,
       quantity: quantity,
@@ -28,7 +22,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
       availableCount: product.availableCount,
     });
 
-    setQuantity(1); // Reset input after adding
+    setQuantity(1); 
     alert(`${quantity} x ${product.name} added to cart!`);
   };
 
@@ -44,11 +38,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
       <h4>{product.name}</h4>
       <p>{product.description}</p>
 
-      {/* Required Display */}
       <p style={{ fontWeight: 'bold' }}>Price: ${product.price.toFixed(2)}</p>
       <p>Available: {product.availableCount}</p>
 
-      {/* Add to Cart Interface */}
       <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
         <input
           type="number"

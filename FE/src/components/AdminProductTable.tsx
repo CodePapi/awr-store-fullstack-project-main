@@ -1,8 +1,4 @@
-import type { Product } from 'project-shared';
-
-interface AdminProductTableProps {
-  products: Product[];
-}
+import type { AdminProductTableProps } from '../types';
 
 const AdminProductTable: React.FC<AdminProductTableProps> = ({
   products,

@@ -2,13 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider, createBrowserRouter } from 'react-router';
 import App from './App';
-import { CartProvider } from './context/CartContext';
-import AdminDashboard from './pages/AdminDashboard';
-import CartPage from './pages/CartPage';
-import CreateProductForm from './pages/CreateProductForm';
-import NotFound from './pages/NotFound'; 
-import OrderConfirmationPage from './pages/OrderConfirmationPage';
-import ShopPage from './pages/ShopPage';
+import { CartProvider } from './context';
+import {AdminDashboard, CartPage, CreateProductForm, NotFound, OrderConfirmationPage, ShopPage} from './pages';
+
 
 const router = createBrowserRouter([
   {

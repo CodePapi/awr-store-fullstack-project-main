@@ -6,11 +6,11 @@ import type {
   CartState,
 } from '../types';
 
-const initialCartState: CartState = {
+export const initialCartState: CartState = {
   items: [],
 };
 
-const cartReducer = (state: CartState, action: CartAction): CartState => {
+export const cartReducer = (state: CartState, action: CartAction): CartState => {
   switch (action.type) {
     case 'ADD_ITEM': {
       const newItem = action.payload;

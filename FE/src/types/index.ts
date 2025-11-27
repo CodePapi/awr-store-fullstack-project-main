@@ -1,4 +1,5 @@
-// --- Local Cart State Model ---
+import type { Product } from "project-shared";
+
 export interface CartItem {
   productId: number;
   quantity: number;
@@ -23,4 +24,12 @@ export interface CartContextType extends CartState {
   removeItem: (productId: number) => void;
   clearCart: () => void;
   getCartTotal: () => number;
+}
+
+export interface AdminProductTableProps {
+  products: Product[];
+}
+
+export interface ProductCardProps {
+  product: Product;
 }
