@@ -6,9 +6,8 @@ on:
       - main
       - develop
     paths:
-      - 'FE/**' # Trigger only when files in the FE directory change
-      - 'package.json' # Include root package.json if it contains FE test script
-  pull_request:
+      - 'FE/**' 
+      - 'package.json' 
     branches:
       - main
       - develop
