@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createProduct } from '../api/apiService';
-import type { Product } from 'product-shared';
+import type { CreateProduct } from 'project-shared';
 
 const CreateProductForm: React.FC = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState<Product>({
+  const [formData, setFormData] = useState<CreateProduct>({
     name: '',
     description: '',
     price: 0,

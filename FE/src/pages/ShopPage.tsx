@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { Product } from 'project-shared';
 import { fetchProducts } from '../api/apiService';
 import ProductCard from '../components/ProductCard'; // Import the new component

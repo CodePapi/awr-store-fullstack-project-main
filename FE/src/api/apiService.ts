@@ -25,7 +25,7 @@ export async function fetchProducts(): Promise<Product[]> {
 /**
  * Creates a new product. (POST /products)
  */
-export async function createProduct(payload: Product): Promise<CreateProduct> {
+export async function createProduct(payload: CreateProduct): Promise<CreateProduct> {
   const response = await fetch(`${API_BASE_URL}/products`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
