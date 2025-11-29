@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { placeOrder } from '../api';
 import { useCart } from '../hooks';
 
-// Hardcoded Customer ID as required by instructions
 const CUSTOMER_ID = '7545afc6-c1eb-497a-9a44-4e6ba595b4ab';
 
 const CartPage: React.FC = () => {
@@ -21,7 +20,6 @@ const CartPage: React.FC = () => {
     setLoading(true);
     setError(null);
 
-    // 1. Format the cart state into the required payload shape
     const payload = {
       customerId: CUSTOMER_ID,
       products: items.map((item) => ({
@@ -31,16 +29,12 @@ const CartPage: React.FC = () => {
     };
 
     try {
-      // 2. API Call: POST /orders
       const newOrder = await placeOrder(payload);
-
-      // 3. On Success: Clear cart and redirect
       clearCart();
       alert(`Order ${newOrder.id} placed successfully!`);
-      navigate(`/orders/${newOrder.id}`); // Redirect to confirmation page
+      navigate(`/orders/${newOrder.id}`); 
     } catch (err) {
       console.error('Order placement failed:', err);
-      // Display error (often an inventory issue from the BE)
       setError(
         err instanceof Error
           ? err.message

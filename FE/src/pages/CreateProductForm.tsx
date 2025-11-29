@@ -20,7 +20,6 @@ const CreateProductForm: React.FC = () => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      // Convert number fields to actual numbers
       [name]:
         name === 'price' || name === 'availableCount' ? Number(value) : value,
     }));
@@ -31,7 +30,6 @@ const CreateProductForm: React.FC = () => {
     setLoading(true);
     setError(null);
 
-    // Basic validation
     if (
       !formData.name ||
       !formData.description ||
@@ -46,12 +44,10 @@ const CreateProductForm: React.FC = () => {
     try {
       await createProduct(formData);
 
-      // On successful submission, redirect back to the Product Dashboard
       alert(`Product "${formData.name}" created successfully!`);
       navigate('/admin');
     } catch (err) {
       console.error('Error creating product:', err);
-      // Display the specific error message from the API service
       setError(
         err instanceof Error
           ? err.message

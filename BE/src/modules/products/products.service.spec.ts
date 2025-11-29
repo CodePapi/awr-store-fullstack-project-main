@@ -2,6 +2,7 @@ import { Mocked, TestBed } from '@suites/unit';
 import { PrismaService } from 'src/modules/prisma/prisma.service';
 import { CreateProductDto } from './products.schema';
 import { ProductsService } from './products.service';
+import type { Product } from 'src/common/generated/prisma-client';
 
 describe('Product Service Unit Tests', () => {
   let productService: ProductsService;
@@ -18,6 +19,26 @@ describe('Product Service Unit Tests', () => {
     jest.clearAllMocks();
   });
 
+  const mockProduct1: Product = {
+    id: 1,
+    name: 'Mesmerizer 3000',
+    description: 'An antique mesmerizer designed to captivate audiences.',
+    price: 199.99,
+    availableCount: 12,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  };
+
+  const mockProduct2: Product = {
+    id: 2,
+    name: 'Invisibility Cloak V2',
+    description: 'Improved fabric for perfect stealth.',
+    price: 999.99,
+    availableCount: 5,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  };
+
   describe('create', () => {
     it('should create a product with provided data', async () => {
       const createdProductData: CreateProductDto = {
@@ -27,40 +48,88 @@ describe('Product Service Unit Tests', () => {
         availableCount: 12,
       };
 
-      prismaService.product.create.mockResolvedValueOnce({
-        id: 1,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        ...createdProductData,
-      });
+      prismaService.product.create.mockResolvedValueOnce(mockProduct1);
 
       const result = await productService.create(createdProductData);
       expect(prismaService.product.create).toHaveBeenCalledWith({
         data: createdProductData,
       });
-      expect(result).toEqual(expect.objectContaining(createdProductData));
+      expect(result).toEqual(mockProduct1);
     });
   });
 
-  // Note: The following test cases can be completed at your convenience.
-  // Furthermore, any additional tests for covering edge cases or to increase
-  // code coverage is left up to your discretion.
-  describe('findMany', () => {
-    // Note: Pagination support is not expected for this project, but should you
-    // decide to implement pagination support please also consider adding the
-    // appropriate tests.
-    it('should return all products without taking pagination into account', async () => {});
+  describe('findAll', () => {
+    it('should return an array of all products', async () => {
+      const mockProducts = [mockProduct1, mockProduct2];
+      prismaService.product.findMany.mockResolvedValueOnce(mockProducts);
+
+      const result = await productService.findAll();
+      expect(prismaService.product.findMany).toHaveBeenCalledWith();
+      expect(result).toEqual(mockProducts);
+      expect(result.length).toBe(2);
+    });
+
+    it('should return an empty array if no products are found', async () => {
+      prismaService.product.findMany.mockResolvedValueOnce([]);
+
+      const result = await productService.findAll();
+
+      expect(prismaService.product.findMany).toHaveBeenCalledWith();
+      expect(result).toEqual([]);
+      expect(result.length).toBe(0);
+    });
   });
 
-  describe('findOne', () => {
-    it('should return retrieve matching product by using provided product id', async () => {});
-  });
+  describe('findManyByIds', () => {
+    it('should return a list of products matching the provided IDs', async () => {
+      const targetIds = [1, 2];
+      const mockProducts = [mockProduct1, mockProduct2];
+      prismaService.product.findMany.mockResolvedValueOnce(mockProducts);
 
-  describe('updateOne', () => {
-    it('should update and return the product with the given product id', async () => {});
-  });
+      const result = await productService.findManyByIds(targetIds);
+      expect(prismaService.product.findMany).toHaveBeenCalledWith({
+        where: {
+          id: {
+            in: targetIds,
+          },
+        },
+      });
+      expect(result).toEqual(mockProducts);
+      expect(result.length).toBe(2);
+    });
 
-  describe('deleteOne', () => {
-    it('should delete a product with the given product id', async () => {});
+    it('should return an empty array if none of the provided IDs are found', async () => {
+      const targetIds = [99, 100];
+      prismaService.product.findMany.mockResolvedValueOnce([]);
+
+      const result = await productService.findManyByIds(targetIds);
+      expect(prismaService.product.findMany).toHaveBeenCalledWith({
+        where: {
+          id: {
+            in: targetIds,
+          },
+        },
+      });
+      expect(result).toEqual([]);
+      expect(result.length).toBe(0);
+    });
+
+    it('should return a partial list of products if only some IDs are found', async () => {
+      const targetIds = [1, 99];
+      const mockProducts = [mockProduct1];
+
+      prismaService.product.findMany.mockResolvedValueOnce(mockProducts);
+
+      const result = await productService.findManyByIds(targetIds);
+      expect(prismaService.product.findMany).toHaveBeenCalledWith({
+        where: {
+          id: {
+            in: targetIds,
+          },
+        },
+      });
+      expect(result).toEqual(mockProducts);
+      expect(result.length).toBe(1);
+    });
   });
 });

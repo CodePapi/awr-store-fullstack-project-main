@@ -1,9 +1,6 @@
 import { z } from "zod";
 
-/**
- * Base product schema used across FE & BE.
- * Includes all fields a product can have in the system.
- */
+
 export const BaseProductSchema = z.object({
 	id: z.number().positive().describe("Unique product ID"),
 	name: z.string().nonempty().trim().describe("Product name"),
@@ -23,10 +20,7 @@ export const BaseProductSchema = z.object({
 		.describe("Product last updated timestamp"),
 });
 
-/**
- * Schema for creating a product.
- * Only includes fields required on creation.
- */
+
 export const CreateProductSchema = BaseProductSchema.pick({
 	name: true,
 	description: true,
@@ -34,16 +28,8 @@ export const CreateProductSchema = BaseProductSchema.pick({
 	availableCount: true,
 });
 
-/**
- * Schema for updating a product.
- * Partial because all fields are optional on update.
- */
-export const UpdateProductSchema = CreateProductSchema.partial();
 
-/**
- * Types generated automatically from schemas.
- * These are what FE & BE will use.
- */
+export const UpdateProductSchema = CreateProductSchema.partial();
 export type Product = z.infer<typeof BaseProductSchema>;
 export type CreateProduct = z.infer<typeof CreateProductSchema>;
 export type UpdateProduct = z.infer<typeof UpdateProductSchema>;

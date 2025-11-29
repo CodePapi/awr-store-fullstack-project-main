@@ -3,15 +3,15 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-// Import all necessary models and types from the generated client
 import { Prisma, Product } from '../../common/generated/prisma-client';
 import { PrismaService } from '../prisma/prisma.service';
 import { ProductsService } from '../products/products.service';
 import { CreateOrderDto, OrderResponse } from './orders.schema';
 
-// Define a type for the transactional client, which is the most reliable way
-// to ensure the compiler knows about the 'order' and 'product' models inside $transaction.
-type TransactionClient = Prisma.TransactionClient;
+type TransactionClient = Prisma.TransactionClient & {
+  order: Prisma.OrderDelegate;
+  product: Prisma.ProductDelegate;
+};
 
 @Injectable()
 export class OrdersService {
@@ -80,6 +80,7 @@ export class OrdersService {
     // 3. Execute the Transaction
     // All database operations below must succeed or fail together
     const newOrder = await this.prisma.$transaction(
+      // Use the new, type-safe TransactionClient
       async (tx: TransactionClient) => {
         // 3a. Create the Order
         const createdOrder = await tx.order.create({
@@ -133,9 +134,6 @@ export class OrdersService {
     return order;
   }
 
-  /**
-   * Helper function to fetch and structure order data for the response DTO.
-   */
   private async mapOrderToResponse(
     orderId: string,
   ): Promise<OrderResponse | null> {
@@ -156,20 +154,24 @@ export class OrdersService {
       return null;
     }
 
-    // Map to the required OrderResponse shape
     return {
       id: order.id,
       customerId: order.customerId,
-      // FIX: Pass the raw Date object, as the Zod DTO (OrderResponse) expects a Date object here.
       orderCreatedDate: order.orderCreatedDate,
       orderUpdatedDate: order.orderUpdatedDate,
       status: order.status,
       orderTotal: order.orderTotal,
-      products: order.orderItems.map((item) => ({
-        id: item.productId,
-        quantity: item.quantity,
-        name: item.product.name,
-      })),
+      products: order.orderItems.map(
+        (item: {
+          productId: number;
+          quantity: number;
+          product: { name: string };
+        }) => ({
+          id: item.productId,
+          quantity: item.quantity,
+          name: item.product.name,
+        }),
+      ),
     };
   }
 }
