@@ -33,7 +33,6 @@ const ShopPage = () => {
     return <h2 style={{ color: 'red' }}>Error: {error}</h2>;
   }
 
-  // Requirement: Display a list or grid of all available products.
   return (
     <div>
       <h1>🛍️ Product Catalog</h1>

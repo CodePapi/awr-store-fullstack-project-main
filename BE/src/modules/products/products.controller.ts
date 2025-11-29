@@ -15,7 +15,6 @@ import { ProductsService } from './products.service';
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
-  // --- 1. POST /products (Existing) ---
   @Post()
   @ApiOperation({
     summary: 'Creates a new Product resource.',
@@ -36,7 +35,6 @@ export class ProductsController {
     return await this.productsService.create(createProductDto);
   }
 
-  // --- 2. GET /products (New Requirement) ---
   @Get()
   @ApiOperation({
     summary: 'Retrieves a list of all existing Product resources.',
@@ -52,7 +50,6 @@ export class ProductsController {
     },
   })
   async findAll(): Promise<ProductResponse[]> {
-    // The service method to implement next
     return await this.productsService.findAll();
   }
 }

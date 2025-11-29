@@ -23,7 +23,6 @@ import { OrdersService } from './orders.service';
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
-  // --- POST /orders: Place a new order (Transactional Logic) ---
   @Post()
   @ApiOperation({
     summary:
@@ -38,11 +37,9 @@ export class OrdersController {
     description: 'Returned when validation fails or inventory is insufficient.',
   })
   async create(@Body() createOrderDto: CreateOrderDto): Promise<OrderResponse> {
-    // The service handles validation, transaction, and inventory update
     return await this.ordersService.placeOrder(createOrderDto);
   }
 
-  // --- GET /orders/{id}: Retrieve order details ---
   @Get(':id')
   @ApiOperation({
     summary: 'Retrieves the details of a specific order by ID.',

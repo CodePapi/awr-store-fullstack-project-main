@@ -7,13 +7,12 @@
     "ignore": [
       "src/modules/module-bis/generated",
       "src/common/generated/prisma-client/**",
+      "src/modules/prisma/prisma.service.ts",
       "**/node_modules",
-      "BE/dist/**",
-      "FE/dist/**",
-      "shared/dist/**",
-      "FE/build/**",
+      "dist/**",
+      "build/**",
       "**/*.spec.ts",
-      "FE/src/main.tsx"
+      "src/main.tsx"
     ]
   },
   "formatter": {

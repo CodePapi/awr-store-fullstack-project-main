@@ -7,11 +7,6 @@ import type {
 
 const API_BASE_URL = 'http://localhost:3000';
 
-// --- Product Endpoints ---
-
-/**
- * Fetches the entire product catalog. (GET /products)
- */
 export async function fetchProducts(): Promise<Product[]> {
   const response = await fetch(`${API_BASE_URL}/products`);
   console.log('products', response);
@@ -22,9 +17,7 @@ export async function fetchProducts(): Promise<Product[]> {
   return response.json();
 }
 
-/**
- * Creates a new product. (POST /products)
- */
+
 export async function createProduct(
   payload: CreateProduct,
 ): Promise<CreateProduct> {
@@ -42,11 +35,7 @@ export async function createProduct(
   return response.json();
 }
 
-// --- Order Endpoints ---
 
-/**
- * Places a new order. (POST /orders)
- */
 export async function placeOrder(payload: CreateOrder): Promise<OrderResponse> {
   const response = await fetch(`${API_BASE_URL}/orders`, {
     method: 'POST',
@@ -56,16 +45,13 @@ export async function placeOrder(payload: CreateOrder): Promise<OrderResponse> {
 
   if (!response.ok) {
     const errorData = await response.json();
-    // Provides specific error feedback for inventory issues
     throw new Error(errorData.message || 'Failed to place order.');
   }
 
   return response.json();
 }
 
-/**
- * Fetches details for a specific order. (GET /orders/:id)
- */
+
 export async function fetchOrder(orderId: string): Promise<OrderResponse> {
   const response = await fetch(`${API_BASE_URL}/orders/${orderId}`);
 
