@@ -29,7 +29,5 @@ export const CreateProductSchema = BaseProductSchema.pick({
 });
 
 
-export const UpdateProductSchema = CreateProductSchema.partial();
 export type Product = z.infer<typeof BaseProductSchema>;
 export type CreateProduct = z.infer<typeof CreateProductSchema>;
-export type UpdateProduct = z.infer<typeof UpdateProductSchema>;

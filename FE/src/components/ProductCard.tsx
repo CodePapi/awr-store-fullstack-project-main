@@ -38,8 +38,14 @@ const ProductCard: React.FC<ProductCardProps> = ({
       <h4>{product.name}</h4>
       <p>{product.description}</p>
 
-      <p style={{ fontWeight: 'bold' }}>Price: ${product.price.toFixed(2)}</p>
-      <p>Available: {product.availableCount}</p>
+      <p style={{ fontWeight: 'bold' }}>
+        Price: {product.price.toFixed(2)} EUR
+      </p>
+      {product.availableCount > 0 ? (
+        <p>Available: {product.availableCount}</p>
+      ) : (
+        'Out of Order'
+      )}
 
       <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
         <input
@@ -48,7 +54,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           max={product.availableCount}
           value={quantity}
           onChange={(e) => setQuantity(Number(e.target.value))}
-          style={{ width: '60px', marginRight: '10px', padding: '5px' }}
+          style={{ width: '60px', marginRight: '10px', padding: '8px 12px' }}
           disabled={product.availableCount === 0}
         />
         <button

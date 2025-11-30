@@ -31,7 +31,7 @@ const AdminProductTable: React.FC<AdminProductTableProps> = ({
             <tr key={product.id} style={{ borderBottom: '1px solid #eee' }}>
               <td style={{ padding: '10px', width: '50px' }}>{product.id}</td>
               <td style={{ padding: '10px' }}>{product.name}</td>
-              <td style={{ padding: '10px' }}>${product.price.toFixed(2)}</td>
+              <td style={{ padding: '10px' }}>{product.price.toFixed(2)}EUR</td>
               <td style={{ padding: '10px' }}>{product.availableCount}</td>
               <td style={{ padding: '10px', fontSize: 'small' }}>
                 {new Date(product.createdAt).toLocaleDateString()}

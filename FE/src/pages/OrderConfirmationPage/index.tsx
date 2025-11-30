@@ -1,7 +1,7 @@
 import type { OrderResponse } from 'project-shared';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchOrder } from '../api';
+import { fetchOrder } from '../../api';
 
 const OrderConfirmationPage: React.FC = () => {
   const { orderId } = useParams<{ orderId: string }>();
@@ -23,7 +23,9 @@ const OrderConfirmationPage: React.FC = () => {
       } catch (err) {
         console.error('Error fetching order:', err);
         setError(
-          err instanceof Error ? err.message : 'Failed to load order details.',
+          err instanceof Error
+            ? err.message
+            : 'Failed to load order details or this order does not exist',
         );
       } finally {
         setLoading(false);
@@ -69,15 +71,15 @@ const OrderConfirmationPage: React.FC = () => {
           {new Date(order.orderCreatedDate).toLocaleString()}
         </p>
         <p>
-          <strong>Order Total:</strong> ${order.orderTotal.toFixed(2)}
+          <strong>Order Total:</strong> {order.orderTotal.toFixed(2)} EUR
         </p>
 
         <h4>Items Ordered:</h4>
         <ul style={{ listStyleType: 'none', paddingLeft: '0' }}>
           {order.products.map((item) => (
             <li key={item.id}>
-              {item.quantity} x {item.name} ($
-              {(order.orderTotal / item.quantity).toFixed(2)} each - *Note:
+              {item.quantity} x {item.name} (
+              {(order.orderTotal / item.quantity).toFixed(2)} EUR each - *Note:
               Total calculation is simplified here*)
             </li>
           ))}

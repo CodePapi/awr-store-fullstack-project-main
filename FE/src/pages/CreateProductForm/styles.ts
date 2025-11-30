@@ -1,0 +1,75 @@
+const styles = {
+  container: {
+    padding: '2vw',
+    fontFamily: 'Arial, sans-serif',
+    backgroundColor: '#ffffff',
+    borderRadius: '8px',
+    maxWidth: '600px',
+    width: '95%',
+    margin: '20px auto',
+  },
+  form: {
+    display: 'flex',
+    flexDirection: 'column' as const,
+    gap: '15px',
+    padding: '10px 0',
+  },
+  label: {
+    display: 'flex',
+    flexDirection: 'column' as const,
+    fontWeight: '600',
+    fontSize: '1em',
+    color: '#333',
+  },
+  input: {
+    padding: '12px',
+    marginTop: '5px',
+    border: '1px solid #ddd',
+    borderRadius: '6px',
+    fontSize: '1em',
+    transition: 'border-color 0.3s',
+  },
+  textarea: {
+    padding: '12px',
+    marginTop: '5px',
+    border: '1px solid #ddd',
+    borderRadius: '6px',
+    fontSize: '1em',
+    resize: 'vertical' as const,
+  },
+  button: {
+    padding: '12px 20px',
+    borderRadius: '6px',
+    fontSize: '1.1em',
+    fontWeight: 'bold',
+    cursor: 'pointer',
+    marginTop: '10px',
+    border: '1px solid #ddd',
+  },
+  buttonDisabled: {
+    backgroundColor: '#a0c9ff',
+    cursor: 'not-allowed',
+    opacity: 0.7,
+  },
+  error: {
+    color: '#dc3545',
+    fontWeight: 'bold',
+    padding: '12px',
+    backgroundColor: '#f8d7da',
+    border: '1px solid #f5c6cb',
+    borderRadius: '6px',
+    textAlign: 'center' as const,
+    marginBottom: '15px',
+  },
+
+  title: {
+    fontSize: '2em',
+    marginBottom: '0.5em',
+  },
+  subtitle: {
+    fontSize: '1em',
+    color: '#666',
+    marginBottom: '1em',
+  },
+};
+export default styles;

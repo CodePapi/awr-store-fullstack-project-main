@@ -20,10 +20,9 @@ jobs:
   test:
     runs-on: ubuntu-latest
     
-    # 1. 💡 Set up the PostgreSQL test database service
     services:
       postgres:
-        image: postgres:14 # Use the specific version you need
+        image: postgres:14 
         env:
           POSTGRES_USER: runner
           POSTGRES_PASSWORD: password
@@ -36,7 +35,6 @@ jobs:
           --health-timeout 5s
           --health-retries 5
 
-    # 2. 🔑 Set the environment variable for the tests
     env:
       DATABASE_URL: postgresql://runner:password@localhost:5432/testdb
 
@@ -56,13 +54,10 @@ jobs:
         run: sleep 5
       
       - name: 🧬 Run Prisma Migrations (Apply schema to test DB)
-        # This command connects to the test DB and applies your schema
         run: cd BE && npx prisma migrate deploy
 
       - name: 🛠️ Generate Prisma Client
-        # This creates the missing 'src/common/generated/prisma-client' files
         run: cd BE && npx prisma generate
         
       - name: 🧪 Run Backend Tests
-        # This calls 'npm run test:be' from the root
         run: npm run test:be
