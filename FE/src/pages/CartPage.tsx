@@ -32,7 +32,7 @@ const CartPage: React.FC = () => {
       const newOrder = await placeOrder(payload);
       clearCart();
       alert(`Order ${newOrder.id} placed successfully!`);
-      navigate(`/orders/${newOrder.id}`); 
+      navigate(`/orders/${newOrder.id}`);
     } catch (err) {
       console.error('Order placement failed:', err);
       setError(
