@@ -36,7 +36,9 @@ const ShopPage = () => {
   return (
     <div>
       <h1>🛍️ Product Catalog</h1>
-      {products.length>0&&<p>Browse our selection and add items to your cart!</p>}
+      {products.length > 0 && (
+        <p>Browse our selection and add items to your cart!</p>
+      )}
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
         {products.map((product) => (
           <ProductCard key={product.id} product={product} />

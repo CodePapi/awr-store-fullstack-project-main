@@ -1,4 +1,6 @@
 # AWR Store – Full-Stack E-Commerce Project
+[Kindly Watch this video before](https://www.loom.com/share/e6824c3ce6c54d828a443f56cce48eee)
+
 
 A full-stack e-commerce application built as part of a technical take-home challenge.
 I did build the app only to follow instructions but also to demonstrate expertise on solving problems, tooling (trade offs), intuitiveness, engineering best practices and creativity. 
