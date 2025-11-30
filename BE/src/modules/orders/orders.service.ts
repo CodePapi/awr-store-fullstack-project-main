@@ -20,22 +20,12 @@ export class OrdersService {
     private readonly productsService: ProductsService,
   ) {}
 
-  /**
-   * Core implementation for POST /orders.
-   * Executes a transaction to ensure data integrity: check inventory,
-   * create Order, create OrderItems, and update Product counts.
-   * @param dto The incoming CreateOrderDto payload.
-   */
   async placeOrder(dto: CreateOrderDto): Promise<OrderResponse> {
-    // 1. Get product data and calculate total
     const productIds = dto.products.map((p) => p.id);
-
-    // Use the correctly defined method from ProductsService
     const productsInDb: Product[] =
       await this.productsService.findManyByIds(productIds);
 
     if (productsInDb.length !== productIds.length) {
-      // Check if all requested products actually exist
       throw new BadRequestException(
         'One or more products specified in the order do not exist.',
       );
@@ -46,43 +36,31 @@ export class OrdersService {
     );
 
     let orderTotal = 0;
-    // FIX: Use the correct type for the simple array of items destined for 'createMany'
     const orderItemsToCreate: Prisma.OrderItemCreateManyOrderInput[] = [];
 
-    // 2. Validate inventory and prepare items
     for (const item of dto.products) {
       const product = productMap.get(item.id);
 
       if (!product) {
-        // Should be caught by the length check above, but safer to include
         throw new BadRequestException(`Product ID ${item.id} not found.`);
       }
 
-      // CRITICAL: Check for insufficient inventory
       if (product.availableCount < item.quantity) {
         throw new BadRequestException(
           `Insufficient stock for product "${product.name}". Available: ${product.availableCount}, Requested: ${item.quantity}.`,
         );
       }
 
-      // Calculate item total using the current price
       orderTotal += product.price * item.quantity;
-
-      // Prepare data for the OrderItem creation
-      // FIX: Correct data structure for the OrderItemCreateManyOrderInput type
       orderItemsToCreate.push({
         productId: item.id,
         quantity: item.quantity,
-        priceAtOrder: product.price, // Storing price for historical integrity
+        priceAtOrder: product.price,
       });
     }
 
-    // 3. Execute the Transaction
-    // All database operations below must succeed or fail together
     const newOrder = await this.prisma.$transaction(
-      // Use the new, type-safe TransactionClient
       async (tx: TransactionClient) => {
-        // 3a. Create the Order
         const createdOrder = await tx.order.create({
           data: {
             customerId: dto.customerId,
@@ -90,7 +68,6 @@ export class OrdersService {
             status: 'DISPATCHED',
             orderItems: {
               createMany: {
-                // The data array is correctly structured
                 data: orderItemsToCreate,
               },
             },
@@ -98,7 +75,6 @@ export class OrdersService {
           include: { orderItems: true },
         });
 
-        // 3b. Update Product Inventory (Decrement availableCount)
         for (const item of dto.products) {
           await tx.product.update({
             where: { id: item.id },
@@ -114,16 +90,9 @@ export class OrdersService {
       },
     );
 
-    // 4. Return the structured response
-    // The order was created successfully, so we are guaranteed to get a response object
-    // We assert the type here to satisfy the promise return type.
     return this.mapOrderToResponse(newOrder.id) as Promise<OrderResponse>;
   }
 
-  /**
-   * Retrieves an Order by ID and formats it for the OrderResponse DTO.
-   * @param id The UUID of the order.
-   */
   async findOne(id: string): Promise<OrderResponse> {
     const order = await this.mapOrderToResponse(id);
 

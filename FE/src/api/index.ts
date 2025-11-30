@@ -5,7 +5,7 @@ import type {
   Product,
 } from 'project-shared';
 
-const API_BASE_URL = 'http://localhost:3000';
+const API_BASE_URL = 'http://localhost:3000'; //in a real world scenario, i will put this in .env, i will also configure based on the environment, local, staging, live
 
 export async function fetchProducts(): Promise<Product[]> {
   const response = await fetch(`${API_BASE_URL}/products`);
@@ -16,7 +16,6 @@ export async function fetchProducts(): Promise<Product[]> {
   }
   return response.json();
 }
-
 
 export async function createProduct(
   payload: CreateProduct,
@@ -35,7 +34,6 @@ export async function createProduct(
   return response.json();
 }
 
-
 export async function placeOrder(payload: CreateOrder): Promise<OrderResponse> {
   const response = await fetch(`${API_BASE_URL}/orders`, {
     method: 'POST',
@@ -50,7 +48,6 @@ export async function placeOrder(payload: CreateOrder): Promise<OrderResponse> {
 
   return response.json();
 }
-
 
 export async function fetchOrder(orderId: string): Promise<OrderResponse> {
   const response = await fetch(`${API_BASE_URL}/orders/${orderId}`);

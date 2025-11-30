@@ -10,8 +10,6 @@ import { AppModule } from 'src/modules/app/app.module';
 import packageJson from '../package.json';
 import { GenericOperationResponse } from './common/schemas/generic-operation-response.schema';
 
-// Required for converting zod schemas to swagger/openAPI docs
-// Ref: https://github.com/BenLorantfy/nestjs-zod?tab=readme-ov-file#openapi-swagger-support
 patchNestJsSwagger();
 
 async function bootstrap() {
@@ -20,7 +18,7 @@ async function bootstrap() {
     new FastifyAdapter(fastify()),
   );
   app.enableCors({
-    origin: 'http://localhost:5173', // Explicitly allow your React dev server
+    origin: process.env.FE_BASE_URL,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });

@@ -59,15 +59,15 @@ describe('cartReducer', () => {
     });
 
     test('should increment quantity if the item already exists in the cart', () => {
-      const stateWithItem1: CartState = { items: [mockItem1] }; 
+      const stateWithItem1: CartState = { items: [mockItem1] };
       const action: {
         type: 'ADD_ITEM';
         payload: CartItem;
-      } = { type: 'ADD_ITEM', payload: mockItem3 }; 
+      } = { type: 'ADD_ITEM', payload: mockItem3 };
 
       const newState = cartReducer(stateWithItem1, action);
 
-      expect(newState.items).toHaveLength(1); 
+      expect(newState.items).toHaveLength(1);
       const updatedItem = newState.items[0];
 
       expect(updatedItem.quantity).toBe(4);
