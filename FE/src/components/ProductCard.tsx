@@ -38,8 +38,14 @@ const ProductCard: React.FC<ProductCardProps> = ({
       <h4>{product.name}</h4>
       <p>{product.description}</p>
 
-      <p style={{ fontWeight: 'bold' }}>Price: {product.price.toFixed(2)} EUR</p>
-      {product.availableCount>0?<p>Available: {product.availableCount}</p>:"Out of Order"}
+      <p style={{ fontWeight: 'bold' }}>
+        Price: {product.price.toFixed(2)} EUR
+      </p>
+      {product.availableCount > 0 ? (
+        <p>Available: {product.availableCount}</p>
+      ) : (
+        'Out of Order'
+      )}
 
       <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
         <input

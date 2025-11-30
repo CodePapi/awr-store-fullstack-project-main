@@ -2,7 +2,7 @@ import type { CreateProduct } from 'project-shared';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createProduct } from '../../api';
-import styles from "./styles";
+import styles from './styles';
 
 const CreateProductForm: React.FC = () => {
   const navigate = useNavigate();
@@ -25,9 +25,7 @@ const CreateProductForm: React.FC = () => {
     setFormData((prev) => ({
       ...prev,
       [name]:
-        name === 'price' || name === 'availableCount'
-          ? Number(value)
-          : value,
+        name === 'price' || name === 'availableCount' ? Number(value) : value,
     }));
   };
 
@@ -55,15 +53,13 @@ const CreateProductForm: React.FC = () => {
 
       alert(`Product "${formData.name}" created successfully!`);
       navigate('/admin');
-
     } catch (err) {
       console.error('Error creating product:', err);
       setError(
         err instanceof Error
           ? err.message
-          : 'An unknown error occurred during creation.'
+          : 'An unknown error occurred during creation.',
       );
-
     } finally {
       setLoading(false);
     }
@@ -72,12 +68,13 @@ const CreateProductForm: React.FC = () => {
   return (
     <div style={styles.container}>
       <h1 style={styles.title}>➕ Create New Product</h1>
-      <p style={styles.subtitle}>Fill out the details below to add a new item to the inventory.</p>
+      <p style={styles.subtitle}>
+        Fill out the details below to add a new item to the inventory.
+      </p>
 
       {error && <p style={styles.error}>Error: {error}</p>}
 
       <form onSubmit={handleSubmit} style={styles.form}>
-
         <label style={styles.label}>
           Product Name:
           <input
@@ -144,7 +141,6 @@ const CreateProductForm: React.FC = () => {
         >
           {loading ? 'Creating...' : 'Create Product'}
         </button>
-
       </form>
     </div>
   );

@@ -23,7 +23,9 @@ const OrderConfirmationPage: React.FC = () => {
       } catch (err) {
         console.error('Error fetching order:', err);
         setError(
-          err instanceof Error ? err.message : 'Failed to load order details or this order does not exist',
+          err instanceof Error
+            ? err.message
+            : 'Failed to load order details or this order does not exist',
         );
       } finally {
         setLoading(false);

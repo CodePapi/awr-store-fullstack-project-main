@@ -83,7 +83,9 @@ const CartPage: React.FC = () => {
                   style={{ borderBottom: '1px solid #eee' }}
                 >
                   <td style={{ padding: '10px' }}>{item.name}</td>
-                  <td style={{ padding: '10px' }}>{item.price.toFixed(2)} EUR</td>
+                  <td style={{ padding: '10px' }}>
+                    {item.price.toFixed(2)} EUR
+                  </td>
                   <td style={{ padding: '10px' }}>{item.quantity}</td>
                   <td style={{ padding: '10px' }}>
                     {(item.price * item.quantity).toFixed(2)} EUR
@@ -92,7 +94,7 @@ const CartPage: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => removeItem(item.productId)}
-                      style={{ background: 'salmon', cursor:"pointer" }}
+                      style={{ background: 'salmon', cursor: 'pointer' }}
                     >
                       Remove
                     </button>

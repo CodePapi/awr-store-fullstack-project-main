@@ -8,7 +8,6 @@ const AdminDashboard = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  
 
   const loadProducts = useCallback(async () => {
     setLoading(true);
@@ -29,8 +28,6 @@ const AdminDashboard = () => {
   useEffect(() => {
     loadProducts();
   }, [loadProducts]);
-
-
 
   if (loading) {
     return (
@@ -54,11 +51,7 @@ const AdminDashboard = () => {
       <h1>⚙️ Admin Product Dashboard</h1>
 
       <Link to="/admin/new">
-        <button
-          type="button"
-          style={{cursor: 'pointer', height:"40px"}} 
-  
-        >
+        <button type="button" style={{ cursor: 'pointer', height: '40px' }}>
           ➕ Create New Product
         </button>
       </Link>
