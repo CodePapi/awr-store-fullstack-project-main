@@ -183,6 +183,7 @@ DATABASE_URL="postgresql://user:password@awr-pg:5432/awr?schema=public" //SN: Of
 - I did not deploy my codes as it was not really necessary for the task, I should have been able to do something on Netlify, Vercel or AWS amplify for the FE and AWS, Heroku or Hetzner for the BE
 - I did not consider Observability and monitoring on any end as it was not necessary although health was set on Docker.
 - I did not consider SEO Optimization Accessibility, Localization on the FE although I considered responsiveness.
+- I did not consider adding query and params to my backend for filtration and sorting, but on course for a system that is meant to grow in real life, it would be important to add that
 
 ## 🤝 Submission
 
