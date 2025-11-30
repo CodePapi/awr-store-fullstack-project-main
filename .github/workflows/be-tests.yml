@@ -4,14 +4,12 @@ on:
   push:
     branches:
       - main
-      - develop
     paths:
       - 'BE/**'
       - 'package.json'
   pull_request:
     branches:
       - main
-      - develop
     paths:
       - 'BE/**'
       - 'package.json'
@@ -20,7 +18,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     
-   
+    # 1. 💡 Set up the PostgreSQL test database service
     services:
       postgres:
         image: postgres:14 
@@ -36,7 +34,7 @@ jobs:
           --health-timeout 5s
           --health-retries 5
 
-    
+    # 2. 🔑 Set the environment variable for the tests
     env:
       DATABASE_URL: postgresql://runner:password@localhost:5432/testdb
 
@@ -56,13 +54,10 @@ jobs:
         run: sleep 5
       
       - name: 🧬 Run Prisma Migrations (Apply schema to test DB)
-       
         run: cd BE && npx prisma migrate deploy
 
       - name: 🛠️ Generate Prisma Client
-        
         run: cd BE && npx prisma generate
         
       - name: 🧪 Run Backend Tests
-       
         run: npm run test:be
