@@ -26,7 +26,7 @@ export class OrdersController {
   @Post()
   @ApiOperation({
     summary:
-      'Places a new order, validating inventory and executing the transaction.',
+      'Places a new order, validating inventory and executing the transactions.',
   })
   @ApiCreatedResponse({
     description: 'Returned when a new Order was created successfully.',
