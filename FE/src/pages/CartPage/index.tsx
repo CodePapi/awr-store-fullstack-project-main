@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { placeOrder } from '../api';
-import { useCart } from '../hooks';
+import { placeOrder } from '../../api';
+import { useCart } from '../../hooks';
 
+//hardcoded as suggested. in real world, we would take it from the user's profile data after logging in.
 const CUSTOMER_ID = '7545afc6-c1eb-497a-9a44-4e6ba595b4ab';
 
 const CartPage: React.FC = () => {
@@ -82,16 +83,16 @@ const CartPage: React.FC = () => {
                   style={{ borderBottom: '1px solid #eee' }}
                 >
                   <td style={{ padding: '10px' }}>{item.name}</td>
-                  <td style={{ padding: '10px' }}>${item.price.toFixed(2)}</td>
+                  <td style={{ padding: '10px' }}>{item.price.toFixed(2)} EUR</td>
                   <td style={{ padding: '10px' }}>{item.quantity}</td>
                   <td style={{ padding: '10px' }}>
-                    ${(item.price * item.quantity).toFixed(2)}
+                    {(item.price * item.quantity).toFixed(2)} EUR
                   </td>
                   <td style={{ padding: '10px' }}>
                     <button
                       type="button"
                       onClick={() => removeItem(item.productId)}
-                      style={{ background: 'salmon' }}
+                      style={{ background: 'salmon', cursor:"pointer" }}
                     >
                       Remove
                     </button>
@@ -109,7 +110,7 @@ const CartPage: React.FC = () => {
               paddingTop: '10px',
             }}
           >
-            <h2>Order Total: ${total.toFixed(2)}</h2>
+            <h2>Order Total: {total.toFixed(2)} EUR</h2>
             <button
               onClick={handlePlaceOrder}
               disabled={loading || items.length === 0}

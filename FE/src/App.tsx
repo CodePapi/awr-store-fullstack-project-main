@@ -34,11 +34,8 @@ function App() {
       </header>
 
       <main style={{ marginTop: '20px' }}>
-        {/* This is where the specific page content (ShopPage, AdminDashboard, etc.) will render */}
         <Outlet />
       </main>
-
-      {/* TODO: Implement a Cart Sidebar/Modal for the Checkout flow in Stage 2 */}
     </div>
   );
 }

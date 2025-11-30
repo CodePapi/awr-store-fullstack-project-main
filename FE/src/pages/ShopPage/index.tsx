@@ -1,7 +1,7 @@
 import type { Product } from 'project-shared';
 import { useEffect, useState } from 'react';
-import { fetchProducts } from '../api';
-import { ProductCard } from '../components';
+import { fetchProducts } from '../../api';
+import { ProductCard } from '../../components';
 
 const ShopPage = () => {
   const [products, setProducts] = useState<Product[]>([]);

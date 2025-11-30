@@ -9,9 +9,7 @@ const API_BASE_URL = 'http://localhost:3000'; //in a real world scenario, i will
 
 export async function fetchProducts(): Promise<Product[]> {
   const response = await fetch(`${API_BASE_URL}/products`);
-  console.log('products', response);
   if (!response.ok) {
-    console.log('failed to logg');
     throw new Error('Failed to fetch products');
   }
   return response.json();

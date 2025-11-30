@@ -18,7 +18,7 @@ async function bootstrap() {
     new FastifyAdapter(fastify()),
   );
   app.enableCors({
-    origin: process.env.FE_BASE_URL,
+    origin: 'http://localhost:5173', //in the real world, I would add this into the .env 
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
