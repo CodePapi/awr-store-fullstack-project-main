@@ -3,7 +3,8 @@
 A full-stack e-commerce application built as part of a technical take-home challenge.
 I did build the app only to follow instructions but also to demonstrate expertise on solving problems, tooling (trade offs), intuitiveness, engineering best practices and creativity. 
 - I spined up the entire project on Docker to run on a single command. 
-- I added Github actions to run the test cases, lint and format on PR. 
+- I added Github actions to run the test cases, lint and format on PR for both ends. 
+- I followed best practices on github by utilizing the PR system, Branching system, pr readable and purposeful naming convention system (Would have included versioning in real life for more robust systems if it was deployed)
 - I also used a Monorepo and introduced a shared directory where BE and FE had something in common that did not need to be repeated by this applied the principle of DRY.
 - I applied engineering principles like YAGNI by removing all files and codes that were not necessary most especially from the vite+react boilerplate.
 - I applied principles like KISS by not over-engineering, for instance, I also used only native react tooling for everything
@@ -177,6 +178,11 @@ DATABASE_URL="postgresql://user:password@awr-pg:5432/awr?schema=public" //SN: Of
 ```
 
 ---
+##  Constraints - What I did not do
+- Like stated initially, I did not really use libraries on my FE except for routing
+- I did not deploy my codes as it was not really necessary for the task, I should have been able to do something on Netlify, Vercel or AWS amplify for the FE and AWS, Heroku or Hetzner for the BE
+- I did not consider Observability and monitoring on any end as it was not necessary although health was set on Docker.
+- I did not consider SEO Optimization Accessibility, Localization on the FE although I considered responsiveness.
 
 ## 🤝 Submission
 
