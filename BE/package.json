@@ -2,7 +2,7 @@
 	"name": "awr-store-backend-project",
 	"version": "1.0.0",
 	"description": "Take home evaluation project for backend engineering candidates",
-	"author": "Alvin Lumowa",
+	"author": "SAM",
 	"private": true,
 	"license": "UNLICENSED",
 	"scripts": {
